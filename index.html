@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <title>باقي</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+  <header style="margin-bottom: 7em;">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" aria-expanded="false"
+                  data-toggle="collapse" data-target="#navbar"
+                  onclick="ga('send', 'event', 'Navigation', 'click', 'Navbar Toggle')">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#/" ng-click="$event.preventDefault()" style="cursor: default;">
+            <!-- <span class="glyphicon glyphicon-home" aria-hidden="true"></span> -->
+          </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a class="text-right" target="_blank" href="https://twitter.com/intent/tweet?via=ahymta&url=https%3A//ahimta.github.io/bagi/">راسلنا</a>
+            </li>
+            <li class="dropdown text-right">
+              <a dir="rtl" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                مواقع أخرى <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="text-right" target="_blank" href="https://ahimta.github.io/fuel-consumption-calculator">أسعار البنزين و المياه و الكهرباء</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container text-center" id="example0"></main>
+
+  <hr>
+
+  <footer>
+    <p class="text-center lead" dir="rtl">
+      <a target="_blank" href="https://sa.linkedin.com/in/ahimta"
+         onclick="ga('send', 'event', 'Footer', 'click', 'LinkedIn Profile Link')">
+        &copy;
+        2016
+        عبدالله الأنصاري
+      </a>
+    <p>
+  </footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+          integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
+  <RemainderPanel>
+  <div id="example"></div>
+  <script type="text/babel" src="index.jsx"></script>
+</body>
+</html>
