@@ -5,8 +5,22 @@ function hoursToMillis (hours) { return hours * 60 * 60 * 1000; }
 function minutesToMillis (minutes) { return minutes * 60 * 1000; }
 function secondsToMillis (seconds) { return seconds * 1000; }
 
+function getLastTwoDigits (number)
+{
+  if (number < 100) { return number }
+  else
+  {
+    var lastDigit = number % 10
+    var secondLastDigit = Math.floor(number / 10) % 10
+
+    return lastDigit + (secondLastDigit * 10)
+  }
+}
+
 function getPlurality (number)
 {
+  number = getLastTwoDigits(number)
+
   if      (number === 1)  { return 'one'    }
   else if (number === 2)  { return 'two'    }
   else if (number <=  10) { return 'plural' }
