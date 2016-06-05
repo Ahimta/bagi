@@ -5,6 +5,18 @@ function hoursToMillis (hours) { return hours * 60 * 60 * 1000; }
 function minutesToMillis (minutes) { return minutes * 60 * 1000; }
 function secondsToMillis (seconds) { return seconds * 1000; }
 
+function timeUnitToMillis (timeUnit)
+{
+  var xs = {month: monthsToMillis(1), week: weeksToMillis(1), day: daysToMillis(1), hour: hoursToMillis(1), minute: minutesToMillis(1), second: secondsToMillis(1)}
+  return xs[timeUnit]
+}
+
+function isValidTimeUnit (date, timeUnit)
+{
+    var millisDifference = date - Date.now()
+    return millisDifference >= timeUnitToMillis(timeUnit) || timeUnit === 'auto'
+}
+
 function getLastTwoDigits (number)
 {
   if (number < 100) { return number }
@@ -177,8 +189,7 @@ var RemainderPanel = React.createClass({
   },
   isValidTimeUnit: function (timeUnit)
   {
-    var remaining = period(this.props.date, 'auto')
-    return remaining[timeUnit + 's'] !== 0
+    return isValidTimeUnit(this.props.date, timeUnit)
   }
 });
 
