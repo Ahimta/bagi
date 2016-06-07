@@ -54,9 +54,13 @@ function getPlural (timeUnit, number)
 
   var plurality = getPlurality(number);
 
-  if      (number === 1)        { return x[timeUnit].one                               }
-  else if (plurality === 'two') { return x[timeUnit].two;                              }
-  else                          { return ('' + number + ' ' + x[timeUnit][plurality]); }
+  if (number === 1) { return x[timeUnit].one }
+  else if (plurality === 'two')
+  {
+    if (number === 2) { return x[timeUnit].two                       }
+    else              { return ('' + number + ' ' + x[timeUnit].one) }
+  }
+  else { return ('' + number + ' ' + x[timeUnit][plurality]) }
 }
 
 function f (currentTimeUnit, chosenTimeUnit, time)
@@ -205,13 +209,13 @@ var Remainders = React.createClass({
   }
 })
 
-// ReactDOM.render(<RemainderPanel title='رمضان' date={new Date(2016, 5, 6, 0).getTime()} />, document.getElementById('example0'));
 var remainders = [
   {title: 'رمضان', date: new Date(2016, 5, 6, 0).getTime(), style: 'success'},
   {title: 'العشر الأواخر', date: new Date(2016, 5, 25, 0).getTime(), style: 'success'},
   {title: 'عيد الفطر', date: new Date(2016, 6, 6, 0).getTime(), style: 'success'},
   {title: 'عيد الأضحية', date: new Date(2016, 8, 11, 0).getTime(), style: 'success'},
   {title: 'بداية الدراسة', date: new Date(2016, 8, 18, 0).getTime(), style: 'danger'},
+  {title: 'FIFA 17', date: new Date(2016, 8, 27, 0).getTime(), style: 'success'},
 ]
 
 ReactDOM.render(<Remainders remainders={remainders} />, document.getElementById('example0'))
