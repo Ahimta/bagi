@@ -205,14 +205,12 @@ var Remainders = React.createClass({
   },
   render: function ()
   {
-    return <section>{this.props.remainders.map(this.map)}</section>
+    var sortedRemainders = this.props.remainders.sort(function (a, b) { return a.date - b.date })
+    return <section>{sortedRemainders.map(this.map)}</section>
   }
 })
 
 var remainders = [
-  {title: 'رمضان', date: new Date(2016, 5, 6, 0).getTime(), style: 'success'},
-  {title: 'العشر الأواخر', date: new Date(2016, 5, 25, 0).getTime(), style: 'success'},
-  {title: 'عيد الفطر', date: new Date(2016, 6, 6, 0).getTime(), style: 'success'},
   {title: 'عيد الأضحية', date: new Date(2016, 8, 11, 0).getTime(), style: 'success'},
   {title: 'بداية الدراسة', date: new Date(2016, 8, 18, 0).getTime(), style: 'danger'},
   {title: 'FIFA 17', date: new Date(2016, 8, 27, 0).getTime(), style: 'success'},
