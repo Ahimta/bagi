@@ -7,10 +7,15 @@ https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js
 https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js
 https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js
 https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js
+assets/flat_web_icon_set/color/Facebook.png
+assets/flat_web_icon_set/color/Twitter.png
+assets/flat_web_icon_set/color/Google+.png
+assets/flat_web_icon_set/color/LinkedIn.png
+assets/flat_web_icon_set/color/Email.png
+assets/whatsapp.png
 index.html
 index.jsx
 favicon.ico
-whatsapp.png
 
 NETWORK:
 *
