@@ -215,7 +215,14 @@ var remainders = [
   {title: 'بداية الدراسة', date: new Date(2016, 8, 18, 0).getTime(), style: 'danger'},
   {title: 'FIFA 17', date: new Date(2016, 8, 27, 0).getTime(), style: 'success'},
   {title: 'بداية إجازة منتصف الفصل الأول', date: new Date(2016, 10, 11, 0).getTime(), style: 'success'},
-  {title: 'بداية الدراسة بعد إجازة منتصف الفصل الأول', date: new Date(2016, 10, 20, 0).getTime(), style: 'danger'}
+  {title: 'بداية الدراسة بعد إجازة منتصف الفصل الأول', date: new Date(2016, 10, 20, 0).getTime(), style: 'danger'},
+  {title: 'بداية اختبارات الفصل الدراسي الأول', date: new Date(2017, 0, 15, 0).getTime(), style: 'danger'},
+  {title: 'بداية إجازة منتصف العام', date: new Date(2017, 0, 27, 0).getTime(), style: 'success'},
+  {title: 'بداية الدراسة للفصل الدراسي الثاني', date: new Date(2017, 1, 5, 0).getTime(), style: 'danger'},
+  {title: 'بداية إجازة منتصف الفصل الدراسي الثاني', date: new Date(2017, 2, 31, 0).getTime(), style: 'success'},
+  {title: 'بداية الدراسة بعد إجازة منتصف الفصل الدراسي الثاني', date: new Date(2017, 3, 9, 0).getTime(), style: 'danger'},
+  {title: 'بداية اختبارات الفصل الدراسي الثاني', date: new Date(2017, 5, 4, 0).getTime(), style: 'danger'},
+  {title: 'بداية إجازة نهاية العام', date: new Date(2017, 5, 16, 0).getTime(), style: 'success'},
 ]
 
 ReactDOM.render(<Remainders remainders={remainders} />, document.getElementById('example0'))
