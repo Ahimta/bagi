@@ -214,7 +214,7 @@ var remainders = [
   {title: 'عيد الأضحية', date: new Date(2016, 8, 12, 0).getTime(), style: 'success'},
   {title: 'بداية الدراسة', date: new Date(2016, 8, 18, 0).getTime(), style: 'danger'},
   {title: 'FIFA 17', date: new Date(2016, 8, 27, 0).getTime(), style: 'success'},
-  {title: 'بداية إجازة منتصف الفصل الأول', date: new Date(2016, 10, 10, 0).getTime(), style: 'success'},
+  {title: 'بداية إجازة منتصف الفصل الأول', date: new Date(2016, 10, 11, 0).getTime(), style: 'success'},
   {title: 'بداية الدراسة بعد إجازة منتصف الفصل الأول', date: new Date(2016, 10, 20, 0).getTime(), style: 'danger'}
 ]
 
