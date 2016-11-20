@@ -223,6 +223,7 @@ var remainders = [
   {title: 'بداية الدراسة بعد إجازة منتصف الفصل الدراسي الثاني', date: new Date(2017, 3, 9, 0).getTime(), style: 'danger'},
   {title: 'بداية اختبارات الفصل الدراسي الثاني', date: new Date(2017, 5, 4, 0).getTime(), style: 'danger'},
   {title: 'بداية إجازة نهاية العام', date: new Date(2017, 5, 16, 0).getTime(), style: 'success'},
+  {title: 'مناقشة مشروع التخرج', date: new Date(2017, 0, 8, 0).getTime(), style: 'danger'},
 ]
 
 ReactDOM.render(<Remainders remainders={remainders} />, document.getElementById('example0'))
