@@ -8,7 +8,7 @@ const WATCHED_FILES_GLOB = '{gulpfile.js,index.html,index.jsx,package.json}'
 
 gulp.task('server:connect', () =>
 {
-  connect.server({
+  return connect.server({
     livereload: true,
     fallback: './index.html',
     host: 'localhost',
@@ -19,18 +19,20 @@ gulp.task('server:connect', () =>
 
 gulp.task('server:reload', () =>
 {
-  gulp.src(WATCHED_FILES_GLOB)
+  return gulp.src(WATCHED_FILES_GLOB)
     .pipe(gulp.src(WATCHED_FILES_GLOB))
     .pipe(connect.reload())
 })
 
 gulp.task('deploy', function ()
 {
-  return gulp.src(['assets/**/*.png', 'app.manifest', 'favicon.ico', 'index.html', 'index.jsx'])
+  // HACK
+  const assetsGlob = '**/*.png'
+  return gulp.src([assetsGlob, 'app.manifest', 'favicon.ico', 'index.html', 'index.jsx'])
     .pipe(ghPages())
 })
 
 gulp.task('watch', ['server:connect'], () =>
 {
-  gulp.watch([WATCHED_FILES_GLOB], ['server:reload'])
+  return gulp.watch([WATCHED_FILES_GLOB], ['server:reload'])
 })
