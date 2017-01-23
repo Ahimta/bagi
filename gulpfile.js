@@ -26,7 +26,7 @@ gulp.task('server:reload', () =>
 
 gulp.task('deploy', function ()
 {
-  return gulp.src('{index.html,index.jsx}')
+  return gulp.src(['assets/', 'app.manifest', 'favicon.ico', 'index.html', 'index.jsx'])
     .pipe(ghPages())
 })
 
