@@ -20,7 +20,7 @@ gulp.task('server:connect', () =>
 gulp.task('server:reload', () =>
 {
   gulp.src(WATCHED_FILES_GLOB)
-    .pipe(WATCHED_FILES_GLOB)
+    .pipe(gulp.src(WATCHED_FILES_GLOB))
     .pipe(connect.reload())
 })
 
