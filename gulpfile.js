@@ -1,9 +1,10 @@
 'use strict'
 
-let gulp = require('gulp'),
-    changed = require('gulp-changed'),
-    connect = require('gulp-connect'),
-    ghPages = require('gulp-gh-pages')
+const gulp = require('gulp'),
+  connect = require('gulp-connect'),
+  ghPages = require('gulp-gh-pages')
+
+const WATCHED_FILES_GLOB = '{gulpfile.js,index.html,index.jsx,package.json}'
 
 gulp.task('server:connect', () =>
 {
@@ -18,19 +19,18 @@ gulp.task('server:connect', () =>
 
 gulp.task('server:reload', () =>
 {
-  gulp.src('{gulpfile.js,index.html,index.jsx,package.json}')
-    .pipe(changed('{gulpfile.js,index.html,index.jsx,package.json}'))
+  gulp.src(WATCHED_FILES_GLOB)
+    .pipe(WATCHED_FILES_GLOB)
     .pipe(connect.reload())
 })
 
 gulp.task('deploy', function ()
 {
-  let remoteUrl = 'https://github.com/Ahimta/bagi.git'
   return gulp.src('{index.html,index.jsx}')
     .pipe(ghPages())
 })
 
 gulp.task('watch', ['server:connect'], () =>
 {
-  gulp.watch(['{gulpfile.js,index.html,index.jsx,package.json}'], ['server:reload'])
+  gulp.watch([WATCHED_FILES_GLOB], ['server:reload'])
 })
