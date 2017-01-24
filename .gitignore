@@ -1,2 +1,4 @@
-/.publish
-/node_modules
+.tmp/
+coverage/
+dist/
+node_modules/
