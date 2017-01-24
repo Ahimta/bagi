@@ -1,39 +1,11 @@
 import * as React from 'react';
-import {IDispatch} from '~react-redux~redux';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { IDispatch } from '~react-redux~redux';
+import { bindActionCreators } from 'redux';
+
+import { addTodo, deleteTodo, editTodo, completeTodo, completeAll, clearCompleted } from '../actions/index';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
-import MainSection from '../components/MainSection';
-import {addTodo, deleteTodo, editTodo, completeTodo, completeAll, clearCompleted} from '../actions/index';
-
-interface IAppProps {
-  todos?: any[];
-  actions?: any;
-}
-
-interface IAppState {}
-
-class App extends React.Component<IAppProps, IAppState> {
-  static propTypes = {
-    todos: React.PropTypes.array.isRequired,
-    actions: React.PropTypes.object.isRequired
-  };
-
-  render() {
-    const {todos, actions} = this.props;
-    return (
-      <div>
-        <Header
-          addTodo={actions.addTodo}
-          />
-        <MainSection
-          todos={todos}
-          actions={actions}
-          />
-      </div>
-    );
-  }
-}
 
 function mapStateToProps(state: any) {
   return {
@@ -54,7 +26,18 @@ function mapDispatchToProps(dispatch: IDispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+interface IProps { }
+interface IState { }
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class App extends React.Component<IProps, IState> {
+  render() {
+    return (<div>
+      <Header />
+
+      <hr />
+
+      <Footer />
+    </div>);
+  }
+}
