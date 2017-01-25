@@ -1,12 +1,12 @@
-import * as React from 'react';
+import * as React from 'react'
 
 interface IProps { }
 interface IState { }
 
-class Footer extends React.Component<IProps, IState> {
+export default class Footer extends React.Component<IProps, IState> {
   render() {
-    return (<footer>Footer</footer>);
+    return (<footer style={{ textAlign: 'center' }}>
+      <p><a href='https://linkedin.com/in/ahimta' target='_blank'>&copy; 2017 Abdullah Alansari</a></p>
+    </footer>)
   }
 }
-
-export default Footer;
