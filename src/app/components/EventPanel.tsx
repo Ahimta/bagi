@@ -31,7 +31,7 @@ function t(s: string) {
 }
 
 function getDay(day: number) {
-  const dict = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri']
+  const dict = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
   return dict[day]
 }
 
