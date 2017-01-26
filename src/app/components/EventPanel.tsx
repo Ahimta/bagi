@@ -3,24 +3,7 @@ import { ButtonGroup, DropdownButton, MenuItem, Panel } from 'react-bootstrap'
 
 import * as utils from '../utils'
 
-const HidableElement = ({children, isHidden}: { children?: any, isHidden: boolean }) => {
-  return <span>{isHidden ? '' : children}</span>
-}
-
-interface ISeparatorProps { children?: any, dir: string, pairs: ReadonlyArray<[string, number]>, separator: string }
-const Separator = ({children, dir, pairs, separator}: ISeparatorProps) => {
-  const length = children.length
-  const mapFactory = (separator) => (child, index, xs) => (<span key={pairs[index][0]}>
-    {child}
-    <HidableElement isHidden={index === length - 1}>
-      {separator}
-    </HidableElement>
-  </span>)
-
-  return (<span dir={dir}>{children.map(mapFactory(separator))}</span>)
-}
-
-function RemainingText({dir, remaining}: {dir: string, remaining: any}) {
+function RemainingText({dir, remaining}: { dir: string, remaining: any }) {
   const pairs: ReadonlyArray<[string, number]> = [
     ['month', remaining.months],
     ['week', remaining.weeks],
@@ -30,9 +13,12 @@ function RemainingText({dir, remaining}: {dir: string, remaining: any}) {
     ['second', remaining.seconds],
   ]
 
-  const filteredPairs = pairs.filter(pair => pair[1] !== 0)
-  const Children = filteredPairs.map((pair) => (<span key={pair[0]}>{utils.getPlural(pair[0], pair[1])}</span>))
-  return (<Separator dir={dir} pairs={filteredPairs} separator=' و '>{Children}</Separator>)
+  const remainingText = pairs
+    .filter(([, value]) => value !== 0)
+    .map(([unit, value]) => utils.getPlural(unit, value))
+    .join(' و ')
+
+  return <span dir={dir}>{remainingText}</span>;
 }
 
 interface IProps {
@@ -139,9 +125,11 @@ export default class Event extends React.Component<IProps, IState>
       </DropdownButton>
     </ButtonGroup>)
 
-    return (<Panel bsStyle={positive ? 'primary' : 'danger'} className='text-center' footer={Footer} header={title}>
-      <RemainingText dir='rtl' remaining={remaining} />
-    </Panel>)
+    return (<article>
+      <Panel bsStyle={positive ? 'primary' : 'danger'} className='text-center' footer={Footer} header={title}>
+        <RemainingText dir='rtl' remaining={remaining} />
+      </Panel>
+    </article>)
   }
 
   private handleChangeFactory = (fieldName) => (eventKey, event) => this.setState({ [fieldName]: eventKey } as IState)
