@@ -20,7 +20,7 @@ const Separator = ({children, dir, pairs, separator}: ISeparatorProps) => {
   return (<span dir={dir}>{children.map(mapFactory(separator))}</span>)
 }
 
-function RemainingText({dir, remaining}) {
+function RemainingText({dir, remaining}: {dir: string, remaining: any}) {
   const pairs: ReadonlyArray<[string, number]> = [
     ['month', remaining.months],
     ['week', remaining.weeks],
