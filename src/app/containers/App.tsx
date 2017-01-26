@@ -1,10 +1,8 @@
 import * as React from 'react'
+import { Button, Grid } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { IDispatch } from '~react-redux~redux'
 import { bindActionCreators } from 'redux'
-
-import Divider from 'material-ui/Divider'
-import Paper from 'material-ui/Paper'
 
 import { addTodo, deleteTodo, editTodo, completeTodo, completeAll, clearCompleted } from '../actions/index'
 import Event from '../components/Event'
@@ -48,7 +46,7 @@ export default class App extends React.Component<IProps, IState>
   }
 
   componentWillMount() {
-    this.interval = setInterval(() => this.setState({currentDate: new Date()}), 1000)
+    this.interval = setInterval(() => this.setState({ currentDate: new Date() }), 1000)
   }
 
   componentWillUnmount() {
@@ -58,18 +56,21 @@ export default class App extends React.Component<IProps, IState>
   render() {
     const {currentDate} = this.state
 
-    return (<Paper>
+    return (<section>
       <Header />
 
       <main>
-        <Event currentDate={currentDate} date={new Date(2017, 1, 7)} title='title0' />
-        <Event currentDate={currentDate} date={new Date(2017, 3, 7)} title='title1' />
-        <Event currentDate={currentDate} date={new Date(2017, 3, 7)} title='title2' />
+        <Grid>
+          <Event currentDate={currentDate} date={new Date(2017, 1, 7)} positive={true} title='title0' />
+          <Event currentDate={currentDate} date={new Date(2017, 3, 7)} positive={false} title='title1' />
+          <Event currentDate={currentDate} date={new Date(2017, 3, 7)} positive={true} title='title2' />
+          <Button bsStyle='success' block disabled>إضافة وقت</Button>
+        </Grid>
       </main>
 
-      <Divider />
+      <hr />
 
       <Footer />
-    </Paper>)
+    </section>)
   }
 }
