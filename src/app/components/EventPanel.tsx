@@ -3,7 +3,39 @@ import { ButtonGroup, DropdownButton, MenuItem, Panel } from 'react-bootstrap'
 
 import * as utils from '../utils'
 
-function RemainingText({dir, remaining}: { dir: string, remaining: any }) {
+function t(s: string) {
+  const dict = {
+    'all-days': 'جميع الأيام',
+    custom: 'مخصص',
+    date: 'التاريخ',
+    day: 'أيام',
+    hour: 'ساعات',
+    month: 'شهور',
+    now: 'اﻵن',
+    remaining: 'باقي',
+    value: 'القيمة',
+    week: 'أسابيع',
+    weekdays: 'أيام الأسبوع',
+    weekends: 'نهاية الأسبوع',
+
+    sat: 'السبت',
+    sun: 'الأحد',
+    mon: 'الاثنين',
+    tue: 'الثلاثاء',
+    wed: 'الأربعاء',
+    thu: 'الخميس',
+    fri: 'الجمعة',
+  }
+
+  return dict[s]
+}
+
+function getDay(day: number) {
+  const dict = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri']
+  return dict[day]
+}
+
+function RemainingText({remaining}: { remaining: any }) {
   const pairs: ReadonlyArray<[string, number]> = [
     ['month', remaining.months],
     ['week', remaining.weeks],
@@ -18,7 +50,36 @@ function RemainingText({dir, remaining}: { dir: string, remaining: any }) {
     .map(([unit, value]) => utils.getPlural(unit, value))
     .join(' و ')
 
-  return <span dir={dir}>{remainingText}</span>;
+  return <span dir='rtl'>{remainingText}</span>;
+}
+
+function EventDate({date}: { date: Date }) {
+  const year = date.getFullYear()
+  const month = (date.getMonth() + 1)
+  const monthDay = date.getDate()
+  const day = getDay(date.getDay())
+
+  const text = `${t(day)} ${monthDay}/${month}/${year}`
+  return <span dir='rtl'>{text}</span>
+}
+
+interface IEventTextProps {currentDate: Date, date: Date, display: string, remaining: any}
+function EventText({currentDate, date, display, remaining}: IEventTextProps) {
+  switch (display) {
+    case 'date': return <EventDate date={date} />
+    case 'remaining': return <RemainingText remaining={remaining} />
+    case 'value': return <EventValue currentDate={currentDate} date={date} />
+
+    default: return <RemainingText remaining={remaining} />
+  }
+}
+
+function EventValue({currentDate, date}: {currentDate: Date, date: Date}) {
+  const millis = date.getTime() - currentDate.getTime()
+  const value = (millis / 1000 * 0.01).toFixed(2)
+  const text = `${value} ريال`
+
+  return <span dir='rtl'>{text}</span>
 }
 
 interface IProps {
@@ -33,25 +94,6 @@ interface IState {
   readonly display: string;
   readonly from: string;
   readonly timeUnit: string;
-}
-
-function t(s: string) {
-  const dict = {
-    'all-days': 'جميع الأيام',
-    custom: 'مخصص',
-    date: 'التاريخ',
-    day: 'أيام',
-    hour: 'ساعات',
-    month: 'شهور',
-    now: 'اﻵن',
-    remaining: 'باقي',
-    value: 'القيمة',
-    week: 'أسابيع',
-    weekdays: 'أيام الأسبوع',
-    weekends: 'نهاية الأسبوع'
-  }
-
-  return dict[s]
 }
 
 export default class Event extends React.Component<IProps, IState>
@@ -79,15 +121,16 @@ export default class Event extends React.Component<IProps, IState>
           {t('remaining')}
         </MenuItem>
         <MenuItem active={display === 'date'} className='text-right' eventKey='date'
-          onSelect={this.handleChangeFactory('display')} disabled>
+          onSelect={this.handleChangeFactory('display')}>
           {t('date')}
         </MenuItem>
         <MenuItem active={display === 'value'} className='text-right' eventKey='value'
-          onSelect={this.handleChangeFactory('display')} disabled>
+          onSelect={this.handleChangeFactory('display')}>
           {t('value')}
         </MenuItem>
       </DropdownButton>
-      <DropdownButton dir='rtl' id='daysSelection-dropdown' title={t(daysSelection)} pullRight>
+      <DropdownButton disabled={display === 'date'} dir='rtl' id='daysSelection-dropdown' title={t(daysSelection)}
+        pullRight>
         <MenuItem active={daysSelection === 'all-days'} className='text-right' eventKey='all-days'
           onSelect={this.handleChangeFactory('daysSelection')}>
           {t('all-days')}
@@ -101,7 +144,7 @@ export default class Event extends React.Component<IProps, IState>
           {t('weekends')}
         </MenuItem>
       </DropdownButton>
-      <DropdownButton dir='rtl' id='timeUnit-dropdown' title={t(timeUnit)} pullRight>
+      <DropdownButton disabled={display !== 'remaining'} dir='rtl' id='timeUnit-dropdown' title={t(timeUnit)} pullRight>
         <MenuItem active={timeUnit === 'month'} className='text-right'
           disabled={!utils.isValidTimeUnit(currentDate, date, 'month')} eventKey='month'
           onSelect={this.handleTimeUnitChange}>
@@ -127,7 +170,7 @@ export default class Event extends React.Component<IProps, IState>
 
     return (<article>
       <Panel bsStyle={positive ? 'primary' : 'danger'} className='text-center' footer={Footer} header={title}>
-        <RemainingText dir='rtl' remaining={remaining} />
+        <EventText currentDate={currentDate} date={date} display={display} remaining={remaining} />
       </Panel>
     </article>)
   }
