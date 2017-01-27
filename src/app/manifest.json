@@ -23,7 +23,7 @@
       "sizes": "256x256",
       "type": "image/png"
     }],
-  "start_url": "/bagi",
+  "start_url": "/bagi/",
   "display": "standalone",
   "background_color": "#f0c41b",
   "theme_color": "#222222"
