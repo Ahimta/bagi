@@ -1,19 +1,24 @@
-<!DOCTYPE html>
-<html lang="ar" manifest="app.manifest">
+<!doctype html>
+<html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>باقي</title>
+  <meta name="description" content="تطبيق لمعرفة الوقت المتبقي لبعض الأحداث في السعودية.">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta property="og:url" content="https://ahimta.github.io/bagi">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="باقي">
-  <meta property="og:description" content="كم باقي على رمضان، العيد، نهاية الإجازة">
-  <meta property="og:image" content="https://ahimta.github.io/bagi/favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="باقي">
+  <meta name="msapplication-TileColor" content="#222222">
+  <meta name="msapplication-TileImage" content="app/images/icon-144x144.png">
+  <meta name="theme-color" content="#222222">
+  <link rel="manifest" href="app/manifest.json">
+  <link rel="canonical" href="https://ahimta.github.io/bagi/">
+  <link rel="icon" type="image/png" href="app/images/icon-128.png">
+  <link rel="apple-touch-icon" href="app/images/icon-152x152.png">
 
   <script>
-    if (location.hostname !== 'localhost' && location.protocol !== 'https:')
-    {
-      location.protocol = 'https';
+    if (location.hostname !== 'localhost' && location.protocol !== 'https') {
+      window.location.protocol = 'https';
     }
   </script>
 
@@ -22,196 +27,320 @@
     ;NREUM.info={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",licenseKey:"0828e2fd0c",applicationID:"18542288",sa:1}
   </script>
 
-  <title>باقي</title>
+  <style>
+    .loader {
+      left: 50%;
+      top: 50%;
+      position: fixed;
+      -webkit-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%); }
+      .loader #spinner {
+        box-sizing: border-box;
+        stroke: #673AB7;
+        stroke-width: 3px;
+        -webkit-transform-origin: 50%;
+                transform-origin: 50%;
+        -webkit-animation: line 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate 1.6s linear infinite;
+                animation: line 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate 1.6s linear infinite; }
 
-  <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous"
-        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7">
+    @-webkit-keyframes rotate {
+      from {
+        -webkit-transform: rotate(0);
+                transform: rotate(0); }
+      to {
+        -webkit-transform: rotate(450deg);
+                transform: rotate(450deg); } }
+
+    @keyframes rotate {
+      from {
+        -webkit-transform: rotate(0);
+                transform: rotate(0); }
+      to {
+        -webkit-transform: rotate(450deg);
+                transform: rotate(450deg); } }
+
+    @-webkit-keyframes line {
+      0% {
+        stroke-dasharray: 2, 85.964;
+        -webkit-transform: rotate(0);
+                transform: rotate(0); }
+      50% {
+        stroke-dasharray: 65.973, 21.9911;
+        stroke-dashoffset: 0; }
+      100% {
+        stroke-dasharray: 2, 85.964;
+        stroke-dashoffset: -65.973;
+        -webkit-transform: rotate(90deg);
+                transform: rotate(90deg); } }
+
+    @keyframes line {
+      0% {
+        stroke-dasharray: 2, 85.964;
+        -webkit-transform: rotate(0);
+                transform: rotate(0); }
+      50% {
+        stroke-dasharray: 65.973, 21.9911;
+        stroke-dashoffset: 0; }
+      100% {
+        stroke-dasharray: 2, 85.964;
+        stroke-dashoffset: -65.973;
+        -webkit-transform: rotate(90deg);
+                transform: rotate(90deg); } }
+  </style>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').then(function (reg) {
+        // updatefound is fired if service-worker.js changes.
+        reg.onupdatefound = function () {
+          // The updatefound event implies that reg.installing is set; see
+          // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#service-worker-container-updatefound-event
+          var installingWorker = reg.installing;
+
+          installingWorker.onstatechange = function () {
+            switch (installingWorker.state) {
+              case 'installed':
+                if (navigator.serviceWorker.controller) {
+                  // At this point, the old content will have been purged and the fresh content will
+                  // have been added to the cache.
+                  // It's the perfect time to display a "New content is available; please refresh."
+                  // message in the page's interface.
+                  console.log('New or updated content is available.');
+                } else {
+                  // At this point, everything has been precached.
+                  // It's the perfect time to display a "Content is cached for offline use." message.
+                  console.log('Content is now available offline!');
+                }
+                break;
+
+              case 'redundant':
+                console.error('The installing service worker became redundant.');
+                break;
+            }
+          };
+        };
+      }).catch(function (e) {
+        console.error('Error during service worker registration:', e);
+      });
+    }
+  </script>
+</head>
+<body>
+  <!--[if lt IE 10]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please&nbsp;
+    <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div class="loader" id="spinner">
+    <svg viewBox="0 0 32 32" width="32" height="32">
+      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+    </svg>
+  </div>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
   <style>
-    ul.share-buttons
-    {
-      list-style: none;
-      padding: 0;
+    .resp-sharing-button__link, .resp-sharing-button__icon {
+      display: inline-block
     }
 
-    ul.share-buttons li
-    {
-      display: inline;
+    .resp-sharing-button__link {
+      text-decoration: none;
+      color: #fff;
+      margin: 0.5em
     }
+
+    .resp-sharing-button {
+      border-radius: 5px;
+      transition: 25ms ease-out;
+      padding: 0.5em 0.75em;
+      font-family: Helvetica Neue,Helvetica,Arial,sans-serif
+    }
+
+    .resp-sharing-button__icon svg {
+      width: 1em;
+      height: 1em;
+      margin-right: 0.4em;
+      vertical-align: top
+    }
+
+    .resp-sharing-button--small svg {
+      margin: 0;
+      vertical-align: middle
+    }
+
+    /* Non solid icons get a stroke */
+    .resp-sharing-button__icon {
+      stroke: #fff;
+      fill: none
+    }
+
+    /* Solid icons get a fill */
+    .resp-sharing-button__icon--solid,
+    .resp-sharing-button__icon--solidcircle {
+      fill: #fff;
+      stroke: none
+    }
+
+    .resp-sharing-button--twitter {
+      background-color: #55acee
+    }
+
+    .resp-sharing-button--twitter:hover {
+      background-color: #2795e9
+    }
+
+    .resp-sharing-button--pinterest {
+      background-color: #bd081c
+    }
+
+    .resp-sharing-button--pinterest:hover {
+      background-color: #8c0615
+    }
+
+    .resp-sharing-button--facebook {
+      background-color: #3b5998
+    }
+
+    .resp-sharing-button--facebook:hover {
+      background-color: #2d4373
+    }
+
+    .resp-sharing-button--tumblr {
+      background-color: #35465C
+    }
+
+    .resp-sharing-button--tumblr:hover {
+      background-color: #222d3c
+    }
+
+    .resp-sharing-button--reddit {
+      background-color: #5f99cf
+    }
+
+    .resp-sharing-button--reddit:hover {
+      background-color: #3a80c1
+    }
+
+    .resp-sharing-button--google {
+      background-color: #dd4b39
+    }
+
+    .resp-sharing-button--google:hover {
+      background-color: #c23321
+    }
+
+    .resp-sharing-button--linkedin {
+      background-color: #0077b5
+    }
+
+    .resp-sharing-button--linkedin:hover {
+      background-color: #046293
+    }
+
+    .resp-sharing-button--email {
+      background-color: #777
+    }
+
+    .resp-sharing-button--email:hover {
+      background-color: #5e5e5e
+    }
+
+    .resp-sharing-button--xing {
+      background-color: #1a7576
+    }
+
+    .resp-sharing-button--xing:hover {
+      background-color: #114c4c
+    }
+
+    .resp-sharing-button--whatsapp {
+      background-color: #25D366
+    }
+
+    .resp-sharing-button--whatsapp:hover {
+      background-color: #1da851
+    }
+
+    .resp-sharing-button--hackernews {
+    background-color: #FF6600
+    }
+    .resp-sharing-button--hackernews:hover, .resp-sharing-button--hackernews:focus {   background-color: #FB6200 }
+
+    .resp-sharing-button--vk {
+      background-color: #507299
+    }
+
+    .resp-sharing-button--vk:hover {
+      background-color: #43648c
+    }
+
+    .resp-sharing-button--facebook {
+      background-color: #3b5998;
+      border-color: #3b5998;
+    }
+
+    .resp-sharing-button--facebook:hover,
+    .resp-sharing-button--facebook:active {
+      background-color: #2d4373;
+      border-color: #2d4373;
+    }
+
+    .resp-sharing-button--twitter {
+      background-color: #55acee;
+      border-color: #55acee;
+    }
+
+    .resp-sharing-button--twitter:hover,
+    .resp-sharing-button--twitter:active {
+      background-color: #2795e9;
+      border-color: #2795e9;
+    }
+
+    .resp-sharing-button--email {
+      background-color: #777777;
+      border-color: #777777;
+    }
+
+    .resp-sharing-button--email:hover,
+    .resp-sharing-button--email:active {
+      background-color: #5e5e5e;
+      border-color: #5e5e5e;
+    }
+
+    .resp-sharing-button--whatsapp {
+      background-color: #25D366;
+      border-color: #25D366;
+    }
+
+    .resp-sharing-button--whatsapp:hover,
+    .resp-sharing-button--whatsapp:active {
+      background-color: #1DA851;
+      border-color: #1DA851;
+    }
+
+    .resp-sharing-button--telegram {
+      background-color: #54A9EB;
+    }
+
+    .resp-sharing-button--telegram:hover {
+      background-color: #4B97D1;}
   </style>
+
+  <div id="root"></div>
 
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
     ga('create', 'UA-49010546-5', 'auto');
     ga('send', 'pageview');
   </script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-</head>
-<body>
-  <header style="margin-bottom: 7em;">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" aria-expanded="false"
-                  data-toggle="collapse" data-target="#navbar"
-                  onclick="ga('send', 'event', 'Navigation', 'click', 'Navbar Toggle')">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#/" ng-click="$event.preventDefault()" style="cursor: default;">
-            <!-- <span class="glyphicon glyphicon-home" aria-hidden="true"></span> -->
-          </a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbar">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a class="text-right" target="_blank"
-                href="https://twitter.com/intent/tweet?via=ahymta&url=https%3A//ahimta.github.io/bagi/"
-                 onclick="ga('send', 'event', 'Navigation', 'click', 'Contact Us')">
-                 راسلنا
-              </a>
-            </li>
-            <li class="dropdown text-right">
-              <a dir="rtl" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                aria-expanded="false" onclick="ga('send', 'event', 'Navigation', 'click', 'Other Websites')">
-                مواقع أخرى <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="text-right">
-                  <a target="_blank" href="https://ahimta.github.io/fuel-consumption-calculator"
-                     onclick="ga('send', 'event', 'Navigation', 'click', 'Gasoline, Water and Electricity Prices')">
-                    أسعار البنزين و المياه و الكهرباء
-                  </a>
-                </li>
-                <li class="text-right">
-                  <a target="_blank" href="http://ahimta.github.io/saudi-radios"
-                     onclick="ga('send', 'event', 'Navigation', 'click', 'Saudi Radios')">
-                    الإذاعات السعودية
-                  </a>
-                </li>
-                <li class="text-right">
-                  <a target="_blank" href="https://donation-web-pla-1479993243743.firebaseapp.com/"
-                     onclick="ga('send', 'event', 'Navigation', 'click', 'DWP')">
-                    منصة التبرعات
-                  </a>
-                </li>
-                <li class="active text-right">
-                  <a target="_blank" href="https://ahimta.github.io/bagi/"
-                     onclick="ga('send', 'event', 'Navigation', 'click', 'Bagi')">
-                    باقي
-                  </a>
-                </li>
-                <li class="divider"></li>
-                <li class="text-left">
-                  <a target="_blank" href="http://ctw.getforge.io/"
-                     onclick="ga('send', 'event', 'Navigation', 'click', 'CTW')">
-                    Clinton, Trump, what's up
-                  </a>
-                </li>
-                <li class="text-left">
-                  <a target="_blank" href="https://blood-donation-system0.herokuapp.com/"
-                     onclick="ga('send', 'event', 'Navigation', 'click', 'BDS')">
-                    Blood Donation System
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-
-  <main class="container text-center" id="example0"></main>
-
-  <hr>
-
-  <section class="text-center">
-    <ul class="share-buttons">
-      <li>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fahimta.github.io%2Fbagi%2F&t=%D8%A8%D8%A7%D9%82%D9%8A" title="Share on Facebook" target="_blank">
-          <img alt="Share on Facebook" src="assets/flat_web_icon_set/color/Facebook.png">
-        </a>
-      </li>
-      <li>
-        <a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fahimta.github.io%2Fbagi%2F&text=%D8%A8%D8%A7%D9%82%D9%8A:%20https%3A%2F%2Fahimta.github.io%2Fbagi%2F&via=ahymta" target="_blank" title="Tweet">
-          <img alt="Tweet" src="assets/flat_web_icon_set/color/Twitter.png">
-        </a>
-      </li>
-      <li>
-        <a href="https://plus.google.com/share?url=https%3A%2F%2Fahimta.github.io%2Fbagi%2F" target="_blank" title="Share on Google+">
-          <img alt="Share on Google+" src="assets/flat_web_icon_set/color/Google+.png">
-        </a>
-      </li>
-      <li>
-        <a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fahimta.github.io%2Fbagi%2F&title=%D8%A8%D8%A7%D9%82%D9%8A&summary=%D9%83%D9%85%20%D8%A8%D8%A7%D9%82%D9%8A%20%D8%B9%D9%84%D9%89%20%D8%B1%D9%85%D8%B6%D8%A7%D9%86%D8%8C%20%D8%A7%D9%84%D8%B9%D9%8A%D8%AF%D8%8C%20%D9%86%D9%87%D8%A7%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AC%D8%A7%D8%B2%D8%A9&source=https%3A%2F%2Fahimta.github.io%2Fbagi%2F" target="_blank" title="Share on LinkedIn">
-          <img alt="Share on LinkedIn" src="assets/flat_web_icon_set/color/LinkedIn.png">
-        </a>
-      </li>
-      <li>
-        <a href="mailto:?subject=%D8%A8%D8%A7%D9%82%D9%8A&body=%D9%83%D9%85%20%D8%A8%D8%A7%D9%82%D9%8A%20%D8%B9%D9%84%D9%89%20%D8%B1%D9%85%D8%B6%D8%A7%D9%86%D8%8C%20%D8%A7%D9%84%D8%B9%D9%8A%D8%AF%D8%8C%20%D9%86%D9%87%D8%A7%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AC%D8%A7%D8%B2%D8%A9:%20https%3A%2F%2Fahimta.github.io%2Fbagi%2F" target="_blank" title="Send email">
-          <img alt="Send email" src="assets/flat_web_icon_set/color/Email.png">
-        </a>
-      </li>
-    </ul>
-    <section class="visible-xs-block">
-      <a href="whatsapp://send?text=%D9%83%D9%85%20%D8%A8%D8%A7%D9%82%D9%8A%20%D8%B9%D9%84%D9%89%20%D8%B1%D9%85%D8%B6%D8%A7%D9%86%D8%8C%20%D8%A7%D9%84%D8%B9%D9%8A%D8%AF%D8%8C%20%D9%86%D9%87%D8%A7%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AC%D8%A7%D8%B2%D8%A9%0Ahttps%3A%2F%2Fahimta.github.io%2Fbagi%2F" onclick="ga('send', 'event', 'Social', 'share', 'WhatsApp')">
-        <img src="assets/whatsapp.png">
-      </a>
-    </section>
-  </section>
-
-  <hr>
-
-  <footer>
-    <p class="lead text-center" dir="rtl">
-      <a target="_blank" href="https://sa.linkedin.com/in/ahimta"
-         onclick="ga('send', 'event', 'Footer', 'click', 'LinkedIn Profile Link')">
-        &copy;
-        2017
-        عبدالله الأنصاري
-      </a>
-    <p>
-  </footer>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
-          integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
-
-  <script type="text/babel" src="index.jsx"></script>
-
-  <style>
-    body:after
-    {
-      content: "beta";
-      position: fixed;
-      width: 80px;
-      height: 25px;
-      background: #337ab7;
-      top: 7px;
-      left: -20px;
-      text-align: center;
-      font-size: 13px;
-      font-family: sans-serif;
-      text-transform: uppercase;
-      font-weight: bold;
-      color: #fff;
-      line-height: 27px;
-      -ms-transform:rotate(-45deg);
-      -webkit-transform:rotate(-45deg);
-      transform:rotate(-45deg);
-      z-index: 9999;
-    }
-  </style>
-</body>
+  <script>
+    document.body.removeChild(document.getElementById('spinner'))
+  </script>
+<script type="text/javascript" src="vendor-457e327894b2e3ad3d53.js"></script><script type="text/javascript" src="app-457e327894b2e3ad3d53.js"></script></body>
 </html>
