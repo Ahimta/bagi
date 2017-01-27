@@ -63,19 +63,19 @@ function EventDate({date}: { date: Date }) {
   return <span dir='rtl'>{text}</span>
 }
 
-interface IEventTextProps {currentDate: Date, date: Date, display: string, remaining: any}
-function EventText({currentDate, date, display, remaining}: IEventTextProps) {
+interface IEventTextProps {currentDate: Date, date: Date, daysSelection: string, display: string, remaining: any}
+function EventText({currentDate, date, daysSelection, display, remaining}: IEventTextProps) {
   switch (display) {
     case 'date': return <EventDate date={date} />
     case 'remaining': return <RemainingText remaining={remaining} />
-    case 'value': return <EventValue currentDate={currentDate} date={date} />
+    case 'value': return <EventValue currentDate={currentDate} date={date} daysSelection={daysSelection} />
 
     default: return <RemainingText remaining={remaining} />
   }
 }
 
-function EventValue({currentDate, date}: {currentDate: Date, date: Date}) {
-  const millis = date.getTime() - currentDate.getTime()
+function EventValue({currentDate, date, daysSelection}: {currentDate: Date, date: Date, daysSelection: string}) {
+  const millis = utils.getMillisDifference(currentDate, date, daysSelection)
   const value = (millis / 1000 * 0.01).toFixed(2)
   const text = `${value} ريال`
 
@@ -112,7 +112,7 @@ export default class Event extends React.Component<IProps, IState>
     const {currentDate, date, positive, title} = this.props
     const {display, daysSelection, timeUnit} = this.state
 
-    const remaining = utils.getRemaining(currentDate, date, timeUnit)
+    const remaining = utils.getRemaining(currentDate, date, timeUnit, daysSelection)
 
     const Footer = (<ButtonGroup>
       <DropdownButton dir='rtl' id='display-dropdown' title={t(display)} pullRight>
@@ -136,11 +136,11 @@ export default class Event extends React.Component<IProps, IState>
           {t('all-days')}
         </MenuItem>
         <MenuItem active={daysSelection === 'weekdays'} className='text-right' eventKey='weekdays'
-          onSelect={this.handleChangeFactory('daysSelection')} disabled>
+          onSelect={this.handleChangeFactory('daysSelection')}>
           {t('weekdays')}
         </MenuItem>
         <MenuItem active={daysSelection === 'weekends'} className='text-right' eventKey='weekends'
-          onSelect={this.handleChangeFactory('daysSelection')} disabled>
+          onSelect={this.handleChangeFactory('daysSelection')}>
           {t('weekends')}
         </MenuItem>
       </DropdownButton>
@@ -170,7 +170,8 @@ export default class Event extends React.Component<IProps, IState>
 
     return (<article>
       <Panel bsStyle={positive ? 'primary' : 'danger'} className='text-center' footer={Footer} header={title}>
-        <EventText currentDate={currentDate} date={date} display={display} remaining={remaining} />
+        <EventText currentDate={currentDate} date={date} daysSelection={daysSelection} display={display}
+          remaining={remaining} />
       </Panel>
     </article>)
   }

@@ -16,6 +16,14 @@ export function getLargestTimeUnit(currentDate: Date, date: Date) {
   else { return 'hour' }
 }
 
+export function getMillisDifference(currentDate: Date, date: Date, daysSelection: string) {
+  switch (daysSelection) {
+    case 'all-days': return (date.getTime() - currentDate.getTime())
+    case 'weekdays': return getWeekdaysMillis(currentDate, date)
+    case 'weekends': return getWeekendsMillis(currentDate, date)
+  }
+}
+
 export function getPlural(timeUnit: string, number: number): string {
   const phrases = {
     month: { one: 'شهر', two: 'شهرين', plural: 'شهور' },
@@ -36,17 +44,18 @@ export function getPlural(timeUnit: string, number: number): string {
   else { return (number + ' ' + phrases[timeUnit][plurality]) }
 }
 
-export function getRemaining(currentDate: Date, date: Date, timeUnit: string): any {
-  const time = date.getTime() - currentDate.getTime()
+export function getRemaining(currentDate: Date, date: Date, timeUnit: string, daysSelection: string): any {
+  const millisDifference = getMillisDifference(currentDate, date, daysSelection)
   const none = { months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 }
 
-  if (time > 0) {
+  if (millisDifference > 0) {
     const units = ['month', 'week', 'day', 'hour', 'minute', 'second']
     const remaining = {}
     let sum = 0
     units.forEach(element => {
       const millisInUnit = MILLIS_IN[element]
-      const remainingOfUnit = getTimeForUnits(element, timeUnit, parseInt(((time - sum) / millisInUnit) + ''))
+      const remainingOfUnit = getTimeForUnits(element, timeUnit,
+        parseInt(((millisDifference - sum) / millisInUnit) + ''))
       remaining[element + 's'] = remainingOfUnit
       sum += millisInUnit * remainingOfUnit
     })
@@ -59,6 +68,32 @@ export function getRemaining(currentDate: Date, date: Date, timeUnit: string): a
 export function isValidTimeUnit(currentDate: Date, date: Date, timeUnit: string) {
   const millisDifference = date.getTime() - currentDate.getTime()
   return millisDifference >= MILLIS_IN[timeUnit] || timeUnit === 'auto'
+}
+
+function getFirstWeekday(date: Date) {
+  if (isWeekday(date.getDay())) { return date }
+  else {
+    const daysDifference = (date.getDay() === 5) ? 2 : 1
+    const firstWeekday = new Date(date.getTime())
+
+    firstWeekday.setDate(date.getDate() + daysDifference)
+    firstWeekday.setHours(0, 0, 0, 0)
+
+    return firstWeekday
+  }
+}
+
+function getFirstWeekend(date: Date) {
+  if (isWeekend(date.getDay())) { return date }
+  else {
+    const daysDifference = (5 - date.getDay())
+    const firstWeekend = new Date(date.getTime())
+
+    firstWeekend.setDate(date.getDate() + daysDifference)
+    firstWeekend.setHours(0, 0, 0, 0)
+
+    return firstWeekend
+  }
 }
 
 function getLastTwoDigits(number: number) {
@@ -87,4 +122,42 @@ function getRank(timeUnit: string): number {
 
 function getTimeForUnits(currentTimeUnit: string, chosenTimeUnit: string, time: number) {
   return getRank(currentTimeUnit) > getRank(chosenTimeUnit) ? 0 : time
+}
+
+function getWeekdaysMillis(currentDate: Date, date: Date) {
+  const millisDifference = date.getTime() - currentDate.getTime()
+
+  if (millisDifference <= 0) { return 0 }
+  else {
+    const weeks = Math.floor(millisDifference / MILLIS_IN.week)
+    const weekdaysMillis = weeks * (MILLIS_IN.day * 5)
+    const remainingDaysMillis = millisDifference - (weeks * MILLIS_IN.week)
+    const remainingDaysStart = new Date(currentDate.getTime() + (weeks * MILLIS_IN.week))
+
+    if (isWeekday(remainingDaysStart.getDay()) && isWeekday(currentDate.getDay()) &&
+      date.getDay() > currentDate.getDay()) {
+      return (weekdaysMillis + remainingDaysMillis)
+    } else {
+      const firstWeekend = getFirstWeekend(remainingDaysStart)
+      const weekdayAfterWeekend = new Date(Math.min(getFirstWeekday(firstWeekend).getTime(), date.getTime()))
+      const remainingWeekendsMillis = (weekdayAfterWeekend.getTime() - firstWeekend.getTime())
+
+      return (weekdaysMillis + remainingDaysMillis - remainingWeekendsMillis)
+    }
+  }
+}
+
+function getWeekendsMillis(currentDate: Date, date: Date) {
+  const millisDifference = date.getTime() - currentDate.getTime()
+  const weekdaysMillis = getWeekdaysMillis(currentDate, date)
+
+  return millisDifference - weekdaysMillis
+}
+
+function isWeekday(day: number) {
+  return day < 5
+}
+
+function isWeekend(day: number) {
+  return !isWeekday(day)
 }
