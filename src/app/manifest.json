@@ -25,6 +25,6 @@
     }],
   "start_url": "/bagi/",
   "display": "standalone",
-  "background_color": "#f0c41b",
+  "background_color": "#337ab7",
   "theme_color": "#222222"
 }
