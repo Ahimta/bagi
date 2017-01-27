@@ -168,8 +168,10 @@ export default class Event extends React.Component<IProps, IState>
       </DropdownButton>
     </ButtonGroup>)
 
+    const Header = (<h2>{title}</h2>)
+
     return (<article>
-      <Panel bsStyle={positive ? 'primary' : 'danger'} className='text-center' footer={Footer} header={title}>
+      <Panel bsStyle={positive ? 'primary' : 'danger'} className='text-center' footer={Footer} header={Header}>
         <EventText currentDate={currentDate} date={date} daysSelection={daysSelection} display={display}
           remaining={remaining} />
       </Panel>

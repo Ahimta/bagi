@@ -88,7 +88,7 @@ export default class App extends React.Component<IProps, IState>
       <main>
         <Grid>
           {EventsPanels}
-          <Button bsStyle='success' block disabled>إضافة وقت</Button>
+          <Button bsSize='lg' bsStyle='success' block disabled>إضافة وقت</Button>
         </Grid>
       </main>
 
