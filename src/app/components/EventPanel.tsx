@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ButtonGroup, DropdownButton, MenuItem, Panel } from 'react-bootstrap'
+import { Button, ButtonGroup, DropdownButton, MenuItem, Panel } from 'react-bootstrap'
 
 import * as utils from '../utils'
 
@@ -86,6 +86,9 @@ export default class Event extends React.Component<IProps, IState>
     const formattedValue = utils.formatValue(currentDate, date, daysSelection, t('currency'))
 
     const Footer = (<ButtonGroup>
+      <Button disabled>
+        ذكرني
+      </Button>
       <DropdownButton dir='rtl' id='display-dropdown' title={t(display)} pullRight>
         <MenuItem active={display === 'remaining'} className='text-right' eventKey='remaining'
           onSelect={this.handleChangeFactory('display')}>
