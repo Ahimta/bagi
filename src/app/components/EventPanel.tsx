@@ -147,7 +147,7 @@ export default class Event extends React.Component<IProps, IState>
     const Header = (<h2 dir='rtl'>{title}</h2>)
 
     return (<article>
-      <Panel bsStyle={positive ? 'primary' : 'danger'} className='text-center' footer={Footer} header={Header}>
+      <Panel bsStyle={positive ? 'success' : 'danger'} className='text-center' footer={Footer} header={Header}>
         <EventText display={display} formattedDate={formattedDate} formattedRemaining={formattedRemaining}
           formattedValue={formattedValue} />
       </Panel>
