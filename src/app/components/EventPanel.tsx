@@ -6,17 +6,21 @@ import * as utils from '../utils'
 function t(s: string) {
   const dict = {
     'all-days': 'جميع الأيام',
-    custom: 'مخصص',
-    date: 'التاريخ',
-    day: 'أيام',
-    hour: 'ساعات',
-    month: 'شهور',
-    now: 'اﻵن',
-    remaining: 'باقي',
-    value: 'القيمة',
-    week: 'أسابيع',
     weekdays: 'أيام الأسبوع',
     weekends: 'نهاية الأسبوع',
+
+    custom: 'مخصص',
+    now: 'اﻵن',
+
+    date: 'التاريخ',
+    remaining: 'باقي',
+    value: 'القيمة',
+
+    year: 'سنوات',
+    month: 'شهور',
+    week: 'أسابيع',
+    day: 'أيام',
+    hour: 'ساعات',
 
     sat: 'السبت',
     sun: 'الأحد',
@@ -37,6 +41,7 @@ function getDay(day: number) {
 
 function RemainingText({remaining}: { remaining: any }) {
   const pairs: ReadonlyArray<[string, number]> = [
+    ['year', remaining.years],
     ['month', remaining.months],
     ['week', remaining.weeks],
     ['day', remaining.days],
@@ -145,6 +150,11 @@ export default class Event extends React.Component<IProps, IState>
         </MenuItem>
       </DropdownButton>
       <DropdownButton disabled={display !== 'remaining'} dir='rtl' id='timeUnit-dropdown' title={t(timeUnit)} pullRight>
+        <MenuItem active={timeUnit === 'year'} className='text-right'
+          disabled={!utils.isValidTimeUnit(currentDate, date, 'year')} eventKey='year'
+          onSelect={this.handleTimeUnitChange}>
+          {t('year')}
+        </MenuItem>
         <MenuItem active={timeUnit === 'month'} className='text-right'
           disabled={!utils.isValidTimeUnit(currentDate, date, 'month')} eventKey='month'
           onSelect={this.handleTimeUnitChange}>

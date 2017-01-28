@@ -1,4 +1,5 @@
 const MILLIS_IN = {
+  year: 12 * 30 * 24 * 60 * 60 * 1000,
   month: 30 * 24 * 60 * 60 * 1000,
   week: 7 * 24 * 60 * 60 * 1000,
   day: 24 * 60 * 60 * 1000,
@@ -10,7 +11,8 @@ const MILLIS_IN = {
 export function getLargestTimeUnit(currentDate: Date, date: Date) {
   const difference = date.getTime() - currentDate.getTime()
 
-  if (difference >= MILLIS_IN.month) { return 'month' }
+  if (difference >= MILLIS_IN.year) { return 'year' }
+  else if (difference >= MILLIS_IN.month) { return 'month' }
   else if (difference >= MILLIS_IN.week) { return 'week' }
   else if (difference >= MILLIS_IN.day) { return 'day' }
   else { return 'hour' }
@@ -26,6 +28,7 @@ export function getMillisDifference(currentDate: Date, date: Date, daysSelection
 
 export function getPlural(timeUnit: string, number: number): string {
   const phrases = {
+    year: { one: 'سنة', two: 'سنتين', plural: 'سنوات' },
     month: { one: 'شهر', two: 'شهرين', plural: 'شهور' },
     week: { one: 'أسبوع', two: 'أسبوعين', plural: 'أسابيع' },
     day: { one: 'يوم', two: 'يومين', plural: 'أيام' },
@@ -49,7 +52,7 @@ export function getRemaining(currentDate: Date, date: Date, timeUnit: string, da
   const none = { months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 }
 
   if (millisDifference > 0) {
-    const units = ['month', 'week', 'day', 'hour', 'minute', 'second']
+    const units = ['year', 'month', 'week', 'day', 'hour', 'minute', 'second']
     const remaining = {}
     let sum = 0
     units.forEach(element => {
@@ -67,7 +70,7 @@ export function getRemaining(currentDate: Date, date: Date, timeUnit: string, da
 
 export function isValidTimeUnit(currentDate: Date, date: Date, timeUnit: string) {
   const millisDifference = date.getTime() - currentDate.getTime()
-  return millisDifference >= MILLIS_IN[timeUnit] || timeUnit === 'auto'
+  return millisDifference >= MILLIS_IN[timeUnit]
 }
 
 function getFirstWeekday(date: Date) {
@@ -116,7 +119,7 @@ function getPlurality(number: number) {
 }
 
 function getRank(timeUnit: string): number {
-  const ranks = { second: 0, minute: 1, hour: 2, day: 3, week: 4, month: 5, auto: 6 }
+  const ranks = { second: 0, minute: 1, hour: 2, day: 3, week: 4, month: 5, year: 6 }
   return ranks[timeUnit]
 }
 
