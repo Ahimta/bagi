@@ -33,6 +33,12 @@ const EVENTS = [
   { title: 'راتب شهر 10 (شوال)', date: date(2017, 6, 27, 0), positive: true },
   { title: 'راتب شهر 11 (ذو القعدة)', date: date(2017, 7, 27, 0), positive: true },
   { title: 'راتب شهر 12 (ذو الحجة)', date: date(2017, 8, 27, 0), positive: true },
+
+  { title: 'فرض ضريبة المنتجات الضارة (المشروبات الغازية...)', date: date(2017, 3, 1, 0), positive: true },
+  { title: 'زيادة أسعار منتجات الطاقة', date: date(2017, 6, 1, 0), positive: false },
+  { title: 'فرض ضريبة القيمة المضافة', date: date(2018, 0, 1, 0), positive: false },
+  { title: 'اعتماد تعرفة السلع الفاخرة', date: date(2018, 0, 1, 0), positive: false },
+  { title: 'ربط جميع منتجات الطاقة بالأسعار المرجعية', date: date(2020, 0, 1, 0), positive: false },
 ]
 
 function mapStateToProps(state: any) {
@@ -112,6 +118,6 @@ export default class App extends React.Component<IProps, IState>
   }
 
   private mapDateFactory = (currentDate) => ({date, positive, title}) => {
-    return <EventPanel currentDate={currentDate} date={date} key={date.getTime()} positive={positive} title={title} />
+    return <EventPanel currentDate={currentDate} date={date} key={title} positive={positive} title={title} />
   }
 }
