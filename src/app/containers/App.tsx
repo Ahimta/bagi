@@ -112,6 +112,6 @@ export default class App extends React.Component<IProps, IState>
   }
 
   private mapDateFactory = (currentDate) => ({date, positive, title}) => {
-    return <EventPanel currentDate={currentDate} date={date} positive={positive} title={title} />
+    return <EventPanel currentDate={currentDate} date={date} key={date.getTime()} positive={positive} title={title} />
   }
 }
