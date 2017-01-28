@@ -24,6 +24,15 @@ const EVENTS = [
   { title: 'بداية الدراسة بعد إجازة منتصف الفصل الدراسي الثاني', date: date(2017, 3, 9, 0), positive: false },
   { title: 'بداية اختبارات الفصل الدراسي الثاني', date: date(2017, 5, 4, 0), positive: false },
   { title: 'بداية إجازة نهاية العام', date: date(2017, 5, 16, 0), positive: true },
+
+  { title: 'راتب شهر 5 (جمادة الأولى)', date: date(2017, 1, 24, 0), positive: true },
+  { title: 'راتب شهر 6 (جمادة الآخرة)', date: date(2017, 2, 25, 0), positive: true },
+  { title: 'راتب شهر 7 (رجب)', date: date(2017, 3, 25, 0), positive: true },
+  { title: 'راتب شهر 8 (شعبان)', date: date(2017, 4, 26, 0), positive: true },
+  { title: 'راتب شهر 9 (رمضان)', date: date(2017, 5, 26, 0), positive: true },
+  { title: 'راتب شهر 10 (شوال)', date: date(2017, 6, 27, 0), positive: true },
+  { title: 'راتب شهر 11 (ذو القعدة)', date: date(2017, 7, 27, 0), positive: true },
+  { title: 'راتب شهر 12 (ذو الحجة)', date: date(2017, 8, 27, 0), positive: true },
 ]
 
 function mapStateToProps(state: any) {

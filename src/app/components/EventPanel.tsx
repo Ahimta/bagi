@@ -64,7 +64,7 @@ function EventDate({date}: { date: Date }) {
   const monthDay = date.getDate()
   const day = getDay(date.getDay())
 
-  const text = `${t(day)} ${monthDay}/${month}/${year}`
+  const text = `${t(day)} ${monthDay}-${month}-${year}`
   return <span dir='rtl'>{text}</span>
 }
 
@@ -178,7 +178,7 @@ export default class Event extends React.Component<IProps, IState>
       </DropdownButton>
     </ButtonGroup>)
 
-    const Header = (<h2>{title}</h2>)
+    const Header = (<h2 dir='rtl'>{title}</h2>)
 
     return (<article>
       <Panel bsStyle={positive ? 'primary' : 'danger'} className='text-center' footer={Footer} header={Header}>
