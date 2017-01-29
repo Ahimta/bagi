@@ -1,24 +1,29 @@
+import * as classNames from 'classnames'
 import * as React from 'react'
 import { MenuItem, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 
 const arabicWebsites = [
   {
     active: false,
+    disabled: false,
     href: 'https://ahimta.github.io/fuel-consumption-calculator/',
     title: 'أسعار البنزين و المياه و الكهرباء'
   },
   {
     active: false,
+    disabled: true,
     href: 'http://ahimta.github.io/saudi-radios',
     title: 'الإذاعات السعودية'
   },
   {
     active: false,
+    disabled: false,
     href: 'https://donation-web-pla-1479993243743.firebaseapp.com/',
     title: 'منصة التبرعات'
   },
   {
     active: true,
+    disabled: false,
     href: 'https://ahimta.github.io/bagi/',
     title: 'باقي'
   },
@@ -40,8 +45,10 @@ const contactUs = {
   title: 'راسلنا',
 }
 
-function ArabicWebsite({active, href, title}: { active: boolean, href: string, title: string }) {
-  return <MenuItem active={active} className='text-right' href={href} key={href} target='_blank'>{title}</MenuItem>
+interface IArabicWebsiteProps { active: boolean, disabled: boolean, href: string, title: string }
+function ArabicWebsite({active, disabled, href, title}: IArabicWebsiteProps) {
+  const className = classNames('text-right', {active})
+  return <MenuItem className={className} disabled={disabled} href={href} key={href} target='_blank'>{title}</MenuItem>
 }
 
 function EnglishWebsite({href, title}: { href: string, title: string }) {
