@@ -40,6 +40,14 @@ function t(s: string) {
   return dict[s]
 }
 
+function getStyle(type: string) {
+  switch (type) {
+    case 'custom': return 'primary'
+    case 'negative': return 'danger'
+    case 'positive': return 'success'
+  }
+}
+
 interface IEventTextProps {display: string, formattedDate: string, formattedRemaining: string, formattedValue: string}
 function EventText({display, formattedDate, formattedRemaining, formattedValue}: IEventTextProps) {
   switch (display) {
@@ -54,8 +62,10 @@ function EventText({display, formattedDate, formattedRemaining, formattedValue}:
 interface IProps {
   readonly currentDate: Date;
   readonly date: Date;
-  readonly positive: boolean;
   readonly title: string;
+  readonly type: string;
+
+  readonly removeEvent: (title: string) => void;
 }
 
 interface IState {
@@ -78,7 +88,7 @@ export default class Event extends React.Component<IProps, IState>
   }
 
   render() {
-    const {currentDate, date, positive, title} = this.props
+    const {currentDate, date, title, type, removeEvent} = this.props
     const {display, daysSelection, timeUnit} = this.state
 
     const formattedDate = utils.formatDate(date, t)
@@ -147,10 +157,16 @@ export default class Event extends React.Component<IProps, IState>
       </DropdownButton>
     </ButtonGroup>)
 
-    const Header = (<h2 dir='rtl'>{title}</h2>)
+    const CloseButton = (<span className='pull-left' style={{cursor: 'pointer'}} onClick={() => removeEvent(title)}>
+      &times;
+    </span>)
+
+    const Header = (type === 'custom') ?
+      (<h2 dir='rtl'>{CloseButton}{title}</h2>) :
+      (<h2 dir='rtl'>{title}</h2>)
 
     return (<article>
-      <Panel bsStyle={positive ? 'success' : 'danger'} className='text-center' footer={Footer} header={Header}>
+      <Panel bsStyle={getStyle(type)} className='text-center' footer={Footer} header={Header}>
         <EventText display={display} formattedDate={formattedDate} formattedRemaining={formattedRemaining}
           formattedValue={formattedValue} />
       </Panel>
