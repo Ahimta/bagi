@@ -257,3 +257,5 @@ toolbox.router.get(/https:\/\/maxcdn.bootstrapcdn.com\/bootstrap\/3.3.7\//, tool
 
 
 
+importScripts("app/sw-push-notifications.js");
+
