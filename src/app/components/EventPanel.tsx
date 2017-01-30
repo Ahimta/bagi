@@ -95,6 +95,9 @@ export default class Event extends React.Component<IProps, IState>
     const formattedRemaining = utils.formatRemaining(currentDate, date, timeUnit, daysSelection, t('and'))
     const formattedValue = utils.formatValue(currentDate, date, daysSelection, t('currency'))
 
+    const isZeroWeekends = utils.isZeroWeekends(currentDate, date)
+    const isZeroWeekdays = utils.isZeroWeekdays(currentDate, date)
+
     const Footer = (<ButtonGroup>
       <Button disabled>
         ذكرني
@@ -119,12 +122,12 @@ export default class Event extends React.Component<IProps, IState>
           onSelect={this.handleChangeFactory('daysSelection')}>
           {t('all-days')}
         </MenuItem>
-        <MenuItem active={daysSelection === 'weekdays'} className='text-right' eventKey='weekdays'
-          onSelect={this.handleChangeFactory('daysSelection')}>
+        <MenuItem active={daysSelection === 'weekdays'} className='text-right' disabled={isZeroWeekdays}
+          eventKey='weekdays' onSelect={this.handleChangeFactory('daysSelection')}>
           {t('weekdays')}
         </MenuItem>
-        <MenuItem active={daysSelection === 'weekends'} className='text-right' eventKey='weekends'
-          onSelect={this.handleChangeFactory('daysSelection')}>
+        <MenuItem active={daysSelection === 'weekends'} className='text-right' disabled={isZeroWeekends}
+          eventKey='weekends' onSelect={this.handleChangeFactory('daysSelection')}>
           {t('weekends')}
         </MenuItem>
       </DropdownButton>

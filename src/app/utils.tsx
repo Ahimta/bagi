@@ -71,6 +71,16 @@ export function isValidTimeUnit(currentDate: Date, date: Date, timeUnit: string)
   return millisDifference >= MILLIS_IN[timeUnit]
 }
 
+export function isZeroWeekends(currentDate: Date, date: Date) {
+  const weekendsMillis = getWeekendsMillis(currentDate, date)
+  return weekendsMillis === 0
+}
+
+export function isZeroWeekdays(currentDate: Date, date: Date) {
+  const weekdaysMillis = getWeekdaysMillis(currentDate, date)
+  return weekdaysMillis === 0
+}
+
 function get12Hour(_24Hour: number) {
   if (_24Hour === 0) {
     return 12
@@ -171,7 +181,7 @@ function getRank(timeUnit: string): number {
 
 function getRemaining(currentDate: Date, date: Date, timeUnit: string, daysSelection: string): any {
   const millisDifference = getMillisDifference(currentDate, date, daysSelection)
-  const none = { months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 }
+  const none = { year: 0, month: 0, week: 0, day: 0, hour: 0, minute: 0, second: 0 }
 
   if (millisDifference > 0) {
     const units = ['year', 'month', 'week', 'day', 'hour', 'minute', 'second']
