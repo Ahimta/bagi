@@ -168,7 +168,7 @@ export default class Event extends React.Component<IProps, IState>
       (<h2 dir='rtl'>{CloseButton}{title}</h2>) :
       (<h2 dir='rtl'>{title}</h2>)
 
-    return (<article>
+    return (<article data-datetime={date.getTime()}>
       <Panel bsStyle={getStyle(type)} className='text-center' footer={Footer} header={Header}>
         <EventText display={display} formattedDate={formattedDate} formattedRemaining={formattedRemaining}
           formattedValue={formattedValue} />

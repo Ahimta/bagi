@@ -17,6 +17,24 @@ function date(year: number, month: number, day: number, hour: number, minute: nu
   return new Date(year, month, day, hour, minute)
 }
 
+function findPos(obj: any) {
+  var curtop = 0;
+
+  if (obj.offsetParent) {
+    do {
+      curtop += obj.offsetTop;
+    } while (obj = obj.offsetParent);
+    return curtop;
+  }
+}
+
+function scrollIntoView(element: any) {
+  const FIXED_HEADER_MARGIN = 70
+  const topOffset = findPos(element)
+
+  window.scrollTo(0, topOffset - FIXED_HEADER_MARGIN)
+}
+
 function massageEvents(currentDate: Date, events: ReadonlyArray<any>): ReadonlyArray<any> {
   return events.slice()
     .sort(({date: d1}, {date: d2}) => d1.getTime() - d2.getTime())
@@ -191,14 +209,23 @@ export default class App extends React.Component<IProps, IState>
         const newCustomEvents = oldCustomEvents.concat(newEvent)
         const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents))
 
-        this.setState({ events: newEvents, showModal: false } as IState)
         localforage.setItem('myEvents', newCustomEvents)
+        this.setState({ events: newEvents, showModal: false } as IState, () => {
+          const newEventElement = document.querySelector(`[data-datetime="${newEventDate.getTime()}"]`)
+
+          if (newEventElement) {
+            // hack
+            setTimeout(() => scrollIntoView(newEventElement), 500)
+          } else {
+            console.log('newEventElement not found!');
+          }
+        })
       })
     }
   }
 
   private openModal = () => {
-    this.setState({newDate: new Date(), newTime: new Date(), newTitle: ''} as IState)
+    this.setState({ newDate: new Date(), newTime: new Date(), newTitle: '', showModal: true } as IState)
   }
 
   private removeEvent = (title: string) => {
@@ -215,7 +242,7 @@ export default class App extends React.Component<IProps, IState>
   }
 
   private mapDateFactory = (currentDate, removeEvent) => ({date, title, type}) => {
-    return <EventPanel currentDate={currentDate} date={date} key={title} title={title} type={type}
-      removeEvent={removeEvent} />
+    return <EventPanel currentDate={currentDate} date={date} key={title} title={title}
+      type={type} removeEvent={removeEvent} />
   }
 }
