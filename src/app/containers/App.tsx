@@ -129,7 +129,7 @@ export default class App extends React.Component<IProps, IState>
         <Grid>
           {EventsPanels}
           <Button active={showModal} bsSize='lg' bsStyle='success' block
-            onClick={() => this.setState({ showModal: true } as IState)}>
+            onClick={this.openModal}>
             إضافة وقت
           </Button>
         </Grid>
@@ -195,6 +195,10 @@ export default class App extends React.Component<IProps, IState>
         localforage.setItem('myEvents', newCustomEvents)
       })
     }
+  }
+
+  private openModal = () => {
+    this.setState({newDate: new Date(), newTime: new Date(), newTitle: ''} as IState)
   }
 
   private removeEvent = (title: string) => {
