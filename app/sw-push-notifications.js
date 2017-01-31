@@ -6,8 +6,8 @@ self.addEventListener('push', function(event) {
 
   var body, title;
   if (data) {
-    body = new Date(data.date).toString();
-    title = data.title;
+    body = data.title;
+    title = 'تذكير';
   } else {
     body = 'body';
     title = 'Title';
@@ -26,8 +26,5 @@ self.addEventListener('notificationclick', function(event) {
   console.log('[Service Worker] Notification click Received.');
 
   event.notification.close();
-
-  event.waitUntil(
-    clients.openWindow('https://ahimta.github.io/bagi/')
-  );
+  event.waitUntil(clients.openWindow('https://ahimta.github.io/bagi/'));
 });
