@@ -192,6 +192,8 @@ export default class Event extends React.Component<IProps, IState>
 
     notifications.scheduleNotification({ date, title, type }, before).then(() => {
       this.setState({ showModal: false } as IState)
+    }).catch(err => {
+      console.log('Notification failed with: ', err)
     })
   }
 }

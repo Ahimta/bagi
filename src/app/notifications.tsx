@@ -10,7 +10,7 @@ export function scheduleNotification({date, title, type}: any, before: string) {
   return getSubscription().then(subscription => {
     return axios.post('https://bagi-backend.herokuapp.com/send-push-msg', {
       subscription,
-      before: before,
+      before,
       event: { date: date.getTime(), title, type }
     }).then(res => {
       return storage.addReminder({ date, title, type })
