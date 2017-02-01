@@ -34,9 +34,7 @@ module.exports = {
         test: /\.tsx$/,
         exclude: /node_modules/,
         loaders: [
-          `ts-loader?${JSON.stringify({
-            ignoreDiagnostics: [2345, 2307, 2322, 2339]
-          })}`
+          'ts-loader'
         ]
       }
     ]

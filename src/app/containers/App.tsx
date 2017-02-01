@@ -2,14 +2,9 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
-
 import * as React from 'react'
 import { Alert, Button, FormControl, FormGroup, Grid, InputGroup, Modal, ProgressBar } from 'react-bootstrap'
-import { connect } from 'react-redux'
-import { IDispatch } from '~react-redux~redux'
-import { bindActionCreators } from 'redux'
 
-import { addTodo, deleteTodo, editTodo, completeTodo, completeAll, clearCompleted } from '../actions/index'
 import EventPanel from '../components/EventPanel'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -73,25 +68,6 @@ const EVENTS = [
   { title: 'ربط جميع منتجات الطاقة بالأسعار المرجعية', date: date(2020, 0, 1, 0), type: 'negative' },
 ]
 
-function mapStateToProps(state: any) {
-  return {
-    todos: state.todos
-  }
-}
-
-function mapDispatchToProps(dispatch: IDispatch) {
-  return {
-    actions: bindActionCreators({
-      addTodo,
-      deleteTodo,
-      editTodo,
-      completeTodo,
-      completeAll,
-      clearCompleted
-    }, dispatch)
-  }
-}
-
 function OfflineAlert() {
   if (serviceWorkerSupported) {
     return (<Alert bsStyle='success' dir='rtl'>الموقع يعمل بدون انترنت!</Alert>)
@@ -113,7 +89,6 @@ interface IState {
   readonly newTitle: string;
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
 export default class App extends React.Component<IProps, IState>
 {
   private intervalId: number;

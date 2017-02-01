@@ -9,10 +9,7 @@
     "react": "^15.0.1",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.0.1",
-    "react-redux": "^4.4.5",
-    "react-router": "^2.4.0",
-    "react-tap-event-plugin": "^2.0.1",
-    "redux": "^3.5.1"
+    "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
     "@types/classnames": "^0.0.31",
@@ -23,8 +20,6 @@
     "@types/react-addons-test-utils": "^0.14.15",
     "@types/react-bootstrap": "0.0.43",
     "@types/react-dom": "^0.14.17",
-    "@types/react-redux": "^4.4.32",
-    "@types/react-router": "^2.0.37",
     "autoprefixer": "^6.2.2",
     "babel-eslint": "^6.0.2",
     "babel-loader": "^6.2.0",

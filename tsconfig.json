@@ -9,8 +9,6 @@
     "typeRoots": ["node_modules/@types/"],
     "types": [
       "classnames",
-      "react-redux",
-      "react-router",
       "react",
       "react-dom",
       "react-addons-test-utils",
