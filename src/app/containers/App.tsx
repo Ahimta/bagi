@@ -1,13 +1,16 @@
+
+import * as React from 'react'
+import { Alert, Button, FormControl, FormGroup, Grid, InputGroup, Modal, ProgressBar } from 'react-bootstrap'
+
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
-import * as React from 'react'
-import { Alert, Button, FormControl, FormGroup, Grid, InputGroup, Modal, ProgressBar } from 'react-bootstrap'
 
 import EventPanel from '../components/EventPanel'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
+import IBagiEvent from '../types/IBagiEvent'
 import SharingButtons from '../components/SharingButtons'
 import * as storage from '../storage'
 
@@ -35,13 +38,14 @@ function scrollIntoView(element: any) {
   window.scrollTo(0, topOffset - FIXED_HEADER_MARGIN)
 }
 
-function massageEvents(currentDate: Date, events: ReadonlyArray<any>): ReadonlyArray<any> {
-  return events.slice()
-    .sort(({date: d1}, {date: d2}) => d1.getTime() - d2.getTime())
+function massageEvents(currentDate: Date, events: ReadonlyArray<IBagiEvent>): ReadonlyArray<IBagiEvent> {
+  return events
     .filter(({date}) => date.getTime() > currentDate.getTime())
+    .slice()
+    .sort(({date: d1}, {date: d2}) => d1.getTime() - d2.getTime())
 }
 
-const EVENTS = [
+const EVENTS: ReadonlyArray<IBagiEvent> = [
   { title: 'بداية إجازة منتصف الفصل الأول', date: date(2016, 10, 11, 0), type: 'positive' },
   { title: 'بداية الدراسة بعد إجازة منتصف الفصل الأول', date: date(2016, 10, 20, 0), type: 'negative' },
   { title: 'بداية اختبارات الفصل الدراسي الأول', date: date(2017, 0, 15, 0), type: 'negative' },
@@ -72,7 +76,7 @@ function OfflineAlert() {
   if (serviceWorkerSupported) {
     return (<Alert bsStyle='success' dir='rtl'>الموقع يعمل بدون انترنت!</Alert>)
   } else {
-    return (<Alert bsStyle='warning' dir='rtl'>الموقع لايعمل يعمل بدون انترنت!</Alert>)
+    return (<Alert bsStyle='warning' dir='rtl'>الموقع لا يعمل بدون انترنت!</Alert>)
   }
 }
 
@@ -81,7 +85,7 @@ interface IProps { }
 interface IState {
   readonly currentDate: Date;
   readonly loading: boolean;
-  readonly events: Readonly<any>;
+  readonly events: ReadonlyArray<IBagiEvent>;
   readonly showModal: boolean;
 
   readonly newDate: Date;
@@ -186,18 +190,19 @@ export default class App extends React.Component<IProps, IState>
 
   private addEvent = () => {
     const {currentDate, newDate, newTime, newTitle} = this.state
+
     if (newTitle) {
       const newEventDate = date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), newTime.getHours(),
         newTime.getMinutes())
 
-      const newEvent: { date: Date, title: string, type: string } = {
+      const newEvent: IBagiEvent = {
         date: newEventDate,
         title: newTitle,
         type: 'custom'
       }
 
       storage.addEvent(newEvent).then(newCustomEvents => {
-        const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents as any))
+        const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents))
 
         this.setState({ events: newEvents, showModal: false } as IState, () => {
           const newEventElement = document.querySelector(`[data-datetime="${newEventDate.getTime()}"]`)
@@ -221,12 +226,12 @@ export default class App extends React.Component<IProps, IState>
     const {currentDate} = this.state
 
     storage.removeEvent(title).then(newCustomEvents => {
-      const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents as any))
+      const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents))
       this.setState({ events: newEvents } as IState)
     })
   }
 
-  private mapDateFactory = (currentDate, removeEvent) => ({date, title, type}) => {
+  private mapDateFactory = (currentDate, removeEvent) => ({date, title, type}: IBagiEvent) => {
     return <EventPanel currentDate={currentDate} date={date} key={title} title={title}
       type={type} removeEvent={removeEvent} />
   }

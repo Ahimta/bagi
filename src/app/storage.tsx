@@ -1,9 +1,10 @@
 import { Promise } from 'es6-promise'
+import IBagiEvent from './types/IBagiEvent'
 import * as localforage from 'localforage'
 
-export function addEvent(event: any): Promise<ReadonlyArray<any>> {
+export function addEvent(event: IBagiEvent): Promise<IBagiEvent[]> {
 
-  return localforage.getItem('myEvents').then((storedCustomEvents: ReadonlyArray<any>) => {
+  return localforage.getItem('myEvents').then((storedCustomEvents: ReadonlyArray<IBagiEvent>) => {
     const oldCustomEvents = (storedCustomEvents || [])
     const newCustomEvents = oldCustomEvents.concat(event)
 
@@ -11,9 +12,9 @@ export function addEvent(event: any): Promise<ReadonlyArray<any>> {
   })
 }
 
-export function addReminder(event: any): Promise<ReadonlyArray<any>> {
+export function addReminder(event: IBagiEvent): Promise<IBagiEvent[]> {
 
-  return localforage.getItem('reminders').then((storedReminders: ReadonlyArray<any>) => {
+  return localforage.getItem('reminders').then((storedReminders: ReadonlyArray<IBagiEvent>) => {
     const oldReminders = (storedReminders || [])
     const newReminders = oldReminders.concat(event)
 
@@ -21,20 +22,20 @@ export function addReminder(event: any): Promise<ReadonlyArray<any>> {
   })
 }
 
-export function getEvents(): Promise<ReadonlyArray<any>> {
+export function getEvents(): Promise<IBagiEvent[]> {
   return localforage.getItem('myEvents').then(storedEvents => {
     return (storedEvents || [])
   })
 }
 
-export function getReminders(): Promise<ReadonlyArray<any>> {
+export function getReminders(): Promise<IBagiEvent[]> {
   return localforage.getItem('reminders').then(storedReminders => {
     return (storedReminders || [])
   })
 }
 
-export function removeEvent(title: string): Promise<ReadonlyArray<any>> {
-  return localforage.getItem('myEvents').then((storedCustomEvents: ReadonlyArray<any>) => {
+export function removeEvent(title: string): Promise<IBagiEvent[]> {
+  return localforage.getItem('myEvents').then((storedCustomEvents: ReadonlyArray<IBagiEvent>) => {
     const oldCustomEvents = (storedCustomEvents || [])
     const newCustomEvents = oldCustomEvents.filter(({title: existingTitle}) => existingTitle !== title)
 

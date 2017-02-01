@@ -1,3 +1,7 @@
+import DaysFilter from './types/DaysFilter'
+import IRemaining from './types/IRemaining'
+import TimeUnit from './types/TimeUnit'
+
 const MILLIS_IN = {
   year: 12 * 30 * 24 * 60 * 60 * 1000,
   month: 30 * 24 * 60 * 60 * 1000,
@@ -26,7 +30,7 @@ export function formatDate(date: Date, t: (s: string) => string) {
   return text
 }
 
-export function formatRemaining(currentDate: Date, date: Date, timeUnit: string, daysSelection: string,
+export function formatRemaining(currentDate: Date, date: Date, timeUnit: TimeUnit, daysSelection: DaysFilter,
   separator: string) {
 
   const remaining = getRemaining(currentDate, date, timeUnit, daysSelection)
@@ -48,7 +52,7 @@ export function formatRemaining(currentDate: Date, date: Date, timeUnit: string,
   return remainingText
 }
 
-export function formatValue(currentDate: Date, date: Date, daysSelection: string, currency: string) {
+export function formatValue(currentDate: Date, date: Date, daysSelection: DaysFilter, currency: string) {
   const millis = getMillisDifference(currentDate, date, daysSelection)
   const value = (millis / 1000 * 0.01).toFixed(2)
   const text = `${value} ${currency}`
@@ -56,7 +60,7 @@ export function formatValue(currentDate: Date, date: Date, daysSelection: string
   return text
 }
 
-export function getLargestTimeUnit(currentDate: Date, date: Date) {
+export function getLargestTimeUnit(currentDate: Date, date: Date): TimeUnit {
   const difference = date.getTime() - currentDate.getTime()
 
   if (difference >= MILLIS_IN.year) { return 'year' }
@@ -66,19 +70,19 @@ export function getLargestTimeUnit(currentDate: Date, date: Date) {
   else { return 'hour' }
 }
 
-export function isValidTimeUnit(currentDate: Date, date: Date, timeUnit: string) {
+export function isValidTimeUnit(currentDate: Date, date: Date, timeUnit: TimeUnit) {
   const millisDifference = date.getTime() - currentDate.getTime()
-  return millisDifference >= MILLIS_IN[timeUnit]
+  return (millisDifference >= MILLIS_IN[timeUnit])
 }
 
 export function isZeroWeekends(currentDate: Date, date: Date) {
   const weekendsMillis = getWeekendsMillis(currentDate, date)
-  return weekendsMillis === 0
+  return (weekendsMillis === 0)
 }
 
 export function isZeroWeekdays(currentDate: Date, date: Date) {
   const weekdaysMillis = getWeekdaysMillis(currentDate, date)
-  return weekdaysMillis === 0
+  return (weekdaysMillis === 0)
 }
 
 function get12Hour(_24Hour: number) {
@@ -136,7 +140,7 @@ function getLastTwoDigits(number: number) {
   }
 }
 
-function getMillisDifference(currentDate: Date, date: Date, daysSelection: string) {
+function getMillisDifference(currentDate: Date, date: Date, daysSelection: DaysFilter) {
   switch (daysSelection) {
     case 'all-days': return (date.getTime() - currentDate.getTime())
     case 'weekdays': return getWeekdaysMillis(currentDate, date)
@@ -179,7 +183,7 @@ function getRank(timeUnit: string): number {
   return ranks[timeUnit]
 }
 
-function getRemaining(currentDate: Date, date: Date, timeUnit: string, daysSelection: string): any {
+function getRemaining(currentDate: Date, date: Date, timeUnit: TimeUnit, daysSelection: DaysFilter): IRemaining {
   const millisDifference = getMillisDifference(currentDate, date, daysSelection)
   const none = { year: 0, month: 0, week: 0, day: 0, hour: 0, minute: 0, second: 0 }
 
@@ -189,18 +193,19 @@ function getRemaining(currentDate: Date, date: Date, timeUnit: string, daysSelec
     let sum = 0
     units.forEach(element => {
       const millisInUnit = MILLIS_IN[element]
-      const remainingOfUnit = getTimeForUnits(element, timeUnit,
+      const remainingOfUnit = getTimeForUnits(element as TimeUnit, timeUnit,
         parseInt(((millisDifference - sum) / millisInUnit) + ''))
       remaining[element] = remainingOfUnit
       sum += millisInUnit * remainingOfUnit
     })
 
-    return remaining
+    return (remaining as IRemaining)
+  } else {
+    return none
   }
-  else { return none }
 }
 
-function getTimeForUnits(currentTimeUnit: string, chosenTimeUnit: string, time: number) {
+function getTimeForUnits(currentTimeUnit: TimeUnit, chosenTimeUnit: TimeUnit, time: number) {
   return getRank(currentTimeUnit) > getRank(chosenTimeUnit) ? 0 : time
 }
 

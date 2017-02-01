@@ -8,9 +8,14 @@ import * as notifications from '../notifications'
 import t from '../translate'
 import * as utils from '../utils'
 
+import DaysFilter from '../types/DaysFilter'
+import EventDisplay from '../types/EventDisplay'
+import EventType from '../types/EventType'
+import TimeUnit from '../types/TimeUnit'
+
 const notificationSupported = ('serviceWorker' in navigator && 'PushManager' in window)
 
-function getStyle(type: string) {
+function getStyle(type: EventType) {
   switch (type) {
     case 'custom': return 'primary'
     case 'negative': return 'danger'
@@ -18,7 +23,13 @@ function getStyle(type: string) {
   }
 }
 
-interface IEventTextProps { display: string, formattedDate: string, formattedRemaining: string, formattedValue: string }
+interface IEventTextProps {
+  display: EventDisplay,
+  formattedDate: string,
+  formattedRemaining: string,
+  formattedValue: string
+}
+
 function EventText({display, formattedDate, formattedRemaining, formattedValue}: IEventTextProps) {
   switch (display) {
     case 'remaining': return <span dir='rtl'>{formattedRemaining}</span>
@@ -33,18 +44,17 @@ interface IProps {
   readonly currentDate: Date;
   readonly date: Date;
   readonly title: string;
-  readonly type: string;
+  readonly type: EventType;
 
   readonly removeEvent: (title: string) => void;
 }
 
 interface IState {
   readonly before: string;
-  readonly daysSelection: string;
-  readonly display: string;
-  readonly from: string;
+  readonly daysSelection: DaysFilter;
+  readonly display: EventDisplay;
   readonly showModal: boolean;
-  readonly timeUnit: string;
+  readonly timeUnit: TimeUnit;
 }
 
 export default class Event extends React.Component<IProps, IState>
@@ -55,7 +65,6 @@ export default class Event extends React.Component<IProps, IState>
       before: 'second',
       daysSelection: 'all-days',
       display: 'remaining',
-      from: 'now',
       showModal: false,
       timeUnit: utils.getLargestTimeUnit(props.currentDate, props.date)
     }
@@ -139,9 +148,7 @@ export default class Event extends React.Component<IProps, IState>
       &times;
     </span>)
 
-    const Header = (type === 'custom') ?
-      (<h2 dir='rtl'>{CloseButton}{title}</h2>) :
-      (<h2 dir='rtl'>{title}</h2>)
+    const Header = (type === 'custom') ? (<h2 dir='rtl'>{CloseButton}{title}</h2>) : (<h2 dir='rtl'>{title}</h2>)
 
     return (<article data-datetime={date.getTime()}>
       <Panel bsStyle={getStyle(type)} className='text-center' footer={Footer} header={Header}>
@@ -176,9 +183,9 @@ export default class Event extends React.Component<IProps, IState>
     </article>)
   }
 
-  private handleChangeFactory = (fieldName) => (value, event) => this.setState({ [fieldName]: value } as IState)
+  private handleChangeFactory = (fieldName) => (value) => this.setState({ [fieldName]: value } as IState)
 
-  private handleTimeUnitChange = (timeUnit, event) => {
+  private handleTimeUnitChange = (timeUnit: TimeUnit) => {
     const {currentDate, date} = this.props
 
     if (utils.isValidTimeUnit(currentDate, date, timeUnit)) {

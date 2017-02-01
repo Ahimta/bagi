@@ -1,12 +1,14 @@
 import axios from 'axios'
 import { Promise } from 'es6-promise'
+
+import IBagiEvent from './types/IBagiEvent'
 import * as storage from './storage'
 
 const applicationServerKey = urlB64ToUint8Array(
   'BBxrA4lbAkt1TiViiJAgeysBQ8Mg7G9URWLDnpe2rfSfFYV26RH7SUWKc0ouHkbw6lGu9dDM4nmiuG05JTbzVqs'
 )
 
-export function scheduleNotification({date, title, type}: any, before: string) {
+export function scheduleNotification({date, title, type}: IBagiEvent, before: string) {
   return getSubscription().then(subscription => {
     return axios.post('https://bagi-backend.herokuapp.com/send-push-msg', {
       subscription,
