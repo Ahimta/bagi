@@ -215,7 +215,7 @@ function getWeekdaysMillis(currentDate: Date, date: Date) {
     const remainingDaysStart = new Date(currentDate.getTime() + (weeks * MILLIS_IN.week))
 
     if (isWeekday(remainingDaysStart.getDay()) && isWeekday(currentDate.getDay()) &&
-      date.getDay() > currentDate.getDay()) {
+      date.getDay() >= currentDate.getDay()) {
       return (weekdaysMillis + remainingDaysMillis)
     } else {
       const firstWeekend = getFirstWeekend(remainingDaysStart)
