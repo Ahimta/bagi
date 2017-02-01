@@ -2,6 +2,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "classnames": "^2.2.5",
+    "es6-promise": "^4.0.5",
     "es6-shim": "^0.35.0",
     "localforage": "^1.4.3",
     "material-ui": "^0.16.7",
