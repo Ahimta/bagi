@@ -1,8 +1,10 @@
-import * as localforage from 'localforage'
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
+
 import * as React from 'react'
-import { Button, FormControl, FormGroup, Grid, InputGroup, Modal } from 'react-bootstrap'
+import { Alert, Button, FormControl, FormGroup, Grid, InputGroup, Modal, ProgressBar } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { IDispatch } from '~react-redux~redux'
 import { bindActionCreators } from 'redux'
@@ -12,6 +14,9 @@ import EventPanel from '../components/EventPanel'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import SharingButtons from '../components/SharingButtons'
+import * as storage from '../storage'
+
+const serviceWorkerSupported = ('serviceWorker' in navigator)
 
 function date(year: number, month: number, day: number, hour: number, minute: number = 0) {
   return new Date(year, month, day, hour, minute)
@@ -87,10 +92,19 @@ function mapDispatchToProps(dispatch: IDispatch) {
   }
 }
 
+function OfflineAlert() {
+  if (serviceWorkerSupported) {
+    return (<Alert bsStyle='success' dir='rtl'>الموقع يعمل بدون انترنت!</Alert>)
+  } else {
+    return (<Alert bsStyle='warning' dir='rtl'>الموقع لايعمل يعمل بدون انترنت!</Alert>)
+  }
+}
+
 interface IProps { }
 
 interface IState {
   readonly currentDate: Date;
+  readonly loading: boolean;
   readonly events: Readonly<any>;
   readonly showModal: boolean;
 
@@ -109,6 +123,7 @@ export default class App extends React.Component<IProps, IState>
     this.state = {
       currentDate: new Date(),
       events: [],
+      loading: true,
       showModal: false,
 
       newDate: new Date(),
@@ -122,11 +137,9 @@ export default class App extends React.Component<IProps, IState>
 
     this.intervalId = setInterval(() => this.setState({ currentDate: new Date() } as IState), 1000)
 
-    localforage.getItem('myEvents').then((storedEvents) => {
-      const customEvents = (storedEvents || [])
-      const events = massageEvents(currentDate, EVENTS.concat(customEvents))
-
-      this.setState({ events } as IState)
+    storage.getEvents().then(customEvents => {
+      const events = massageEvents(currentDate, EVENTS.concat(customEvents as any))
+      this.setState({ events, loading: false } as IState)
     })
   }
 
@@ -135,21 +148,25 @@ export default class App extends React.Component<IProps, IState>
   }
 
   render() {
-    const {currentDate, events, showModal} = this.state
+    const {currentDate, events, loading, showModal} = this.state
     const {newDate, newTime, newTitle} = this.state
 
-    const EventsPanels = events.map(this.mapDateFactory(currentDate, this.removeEvent))
+    const EventsPanels = loading ?
+      <ProgressBar now={100} striped /> :
+      events.map(this.mapDateFactory(currentDate, this.removeEvent))
 
     return (<section>
       <Header />
 
+      <Grid><OfflineAlert /></Grid>
+
       <main>
         <Grid>
           {EventsPanels}
-          <Button active={showModal} bsSize='lg' bsStyle='success' block
-            onClick={this.openModal}>
-            إضافة وقت
-          </Button>
+          <FloatingActionButton backgroundColor='#337ab7' style={{bottom: '1em', left: '1em', position: 'fixed'}}
+             onClick={this.openModal}>
+            <ContentAdd />
+          </FloatingActionButton>
         </Grid>
 
         <Modal show={showModal} onHide={() => this.setState({ showModal: false } as IState)}>
@@ -204,12 +221,9 @@ export default class App extends React.Component<IProps, IState>
         type: 'custom'
       }
 
-      localforage.getItem('myEvents').then((storedCustomEvents: ReadonlyArray<any>) => {
-        const oldCustomEvents = (storedCustomEvents || [])
-        const newCustomEvents = oldCustomEvents.concat(newEvent)
-        const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents))
+      storage.addEvent(newEvent).then(newCustomEvents => {
+        const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents as any))
 
-        localforage.setItem('myEvents', newCustomEvents)
         this.setState({ events: newEvents, showModal: false } as IState, () => {
           const newEventElement = document.querySelector(`[data-datetime="${newEventDate.getTime()}"]`)
 
@@ -231,13 +245,9 @@ export default class App extends React.Component<IProps, IState>
   private removeEvent = (title: string) => {
     const {currentDate} = this.state
 
-    localforage.getItem('myEvents').then((storedCustomEvents: ReadonlyArray<any>) => {
-      const oldCustomEvents = (storedCustomEvents || [])
-      const newCustomEvents = oldCustomEvents.filter(({title: existingTitle}) => existingTitle !== title)
-      const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents))
-
+    storage.removeEvent(title).then(newCustomEvents => {
+      const newEvents = massageEvents(currentDate, EVENTS.concat(newCustomEvents as any))
       this.setState({ events: newEvents } as IState)
-      localforage.setItem('myEvents', newCustomEvents)
     })
   }
 
