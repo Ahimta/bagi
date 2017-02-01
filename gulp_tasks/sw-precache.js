@@ -31,6 +31,7 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
     // This allows you to test precaching behavior without worry about the cache preventing your
     // local changes from being picked up during the development cycle.
     handleFetch,
+    importScripts: ['app/sw-push-notifications.js'],
     runtimeCaching: [{
       // See https://github.com/GoogleChrome/sw-toolbox#methods
       urlPattern: URL_PATTERN,
@@ -46,6 +47,7 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
       `${rootDir}/*.css`,
       `${rootDir}/*.html`,
       `${rootDir}/*.js`,
+      `${rootDir}/app/*.js`,
       `${rootDir}/app/images/*.png`,
       `${rootDir}/app/vendor/*.css`
     ],
