@@ -1,28 +1,23 @@
-self.addEventListener('push', function(event) {
+self.addEventListener('push', function (event) {
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${event.data && event.data.text()}"`);
 
   var data = event.data ? JSON.parse(event.data.text()) : {};
 
-  var body, title;
-  if (data) {
-    body = data.title;
-    title = 'تذكير';
+  if (data && data.title) {
+    var options = {
+      body: data.title,
+      icon: 'app/images/icon-128x128.png',
+      badge: 'app/images/icon-128x128.png'
+    };
+
+    event.waitUntil(self.registration.showNotification('تذكير', options));
   } else {
-    body = 'body';
-    title = 'Title';
+    console.log('Push data malformed: ', event.data);
   }
-
-  var options = {
-    body: body,
-    icon: 'app/images/icon-128x128.png',
-    badge: 'app/images/icon-128x128.png'
-  };
-
-  event.waitUntil(self.registration.showNotification(title, options));
 });
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', function (event) {
   console.log('[Service Worker] Notification click Received.');
 
   event.notification.close();
