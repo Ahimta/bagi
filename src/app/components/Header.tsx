@@ -65,6 +65,7 @@ export default class Header extends React.Component<IProps, IState> {
         <Navbar collapseOnSelect fixedTop inverse>
           <Navbar.Header>
             <Navbar.Brand>
+              <img src='app/images/icon-256x256.png' />
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
