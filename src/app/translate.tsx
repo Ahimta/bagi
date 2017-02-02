@@ -19,6 +19,8 @@ export default function translate(s: string) {
     week: 'أسابيع',
     day: 'أيام',
     hour: 'ساعات',
+    minute: 'دقائق',
+    second: 'ثواني',
 
     sat: 'السبت',
     sun: 'الأحد',

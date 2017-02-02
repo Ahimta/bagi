@@ -1,10 +1,7 @@
 import * as React from 'react'
-import {
-  Button, ButtonGroup, ControlLabel, DropdownButton, FormControl, FormGroup, MenuItem, Modal,
-  Panel
-} from 'react-bootstrap'
+import { Button, ButtonGroup, DropdownButton, MenuItem, Panel } from 'react-bootstrap'
 
-import * as notifications from '../notifications'
+import RemindMeModal from './RemindMeModal'
 import t from '../translate'
 import * as utils from '../utils'
 
@@ -50,7 +47,6 @@ interface IProps {
 }
 
 interface IState {
-  readonly before: string;
   readonly daysSelection: DaysFilter;
   readonly display: EventDisplay;
   readonly showModal: boolean;
@@ -59,10 +55,9 @@ interface IState {
 
 export default class Event extends React.Component<IProps, IState>
 {
-  constructor(props: IProps) {
-    super(props)
+  constructor(props: IProps, context: any) {
+    super(props, context)
     this.state = {
-      before: 'second',
       daysSelection: 'all-days',
       display: 'remaining',
       showModal: false,
@@ -72,7 +67,7 @@ export default class Event extends React.Component<IProps, IState>
 
   render() {
     const {currentDate, date, title, type, removeEvent} = this.props
-    const {before, display, daysSelection, showModal, timeUnit} = this.state
+    const {display, daysSelection, showModal, timeUnit} = this.state
 
     const formattedDate = utils.formatDate(date, t)
     const formattedRemaining = utils.formatRemaining(currentDate, date, timeUnit, daysSelection, t('and'))
@@ -82,63 +77,56 @@ export default class Event extends React.Component<IProps, IState>
     const isZeroWeekdays = utils.isZeroWeekdays(currentDate, date)
 
     const Footer = (<ButtonGroup>
-      <DropdownButton dir='rtl' id='display-dropdown' title={t(display)} pullRight>
-        <MenuItem active={display === 'remaining'} className='text-right' eventKey='remaining'
-          onSelect={this.handleChangeFactory('display') as any}>
+      <DropdownButton dir='rtl' id='display-dropdown' title={t(display)} onSelect={this.handleChangeFactory('display')}
+        pullRight>
+        <MenuItem active={display === 'remaining'} className='text-right' eventKey='remaining'>
           {t('remaining')}
         </MenuItem>
-        <MenuItem active={display === 'time'} className='text-right' eventKey='time'
-          onSelect={this.handleChangeFactory('display') as any}>
-          {t('time')}
-        </MenuItem>
-        <MenuItem active={display === 'value'} className='text-right' eventKey='value'
-          onSelect={this.handleChangeFactory('display') as any}>
-          {t('value')}
-        </MenuItem>
+        <MenuItem active={display === 'time'} className='text-right' eventKey='time'>{t('time')}</MenuItem>
+        <MenuItem active={display === 'value'} className='text-right' eventKey='value'>{t('value')}</MenuItem>
       </DropdownButton>
-      <Button active={showModal} className='hidden' disabled={!notificationSupported}
+
+      <Button active={showModal} disabled={!notificationSupported}
         onClick={() => this.setState({ showModal: true } as IState)}>
         ذكرني
       </Button>
+
       <DropdownButton disabled={display === 'time'} dir='rtl' id='daysSelection-dropdown' title={t(daysSelection)}
-        pullRight>
-        <MenuItem active={daysSelection === 'all-days'} className='text-right' eventKey='all-days'
-          onSelect={this.handleChangeFactory('daysSelection') as any}>
+        onSelect={this.handleChangeFactory('daysSelection')} pullRight>
+        <MenuItem active={daysSelection === 'all-days'} className='text-right' eventKey='all-days'>
           {t('all-days')}
         </MenuItem>
         <MenuItem active={daysSelection === 'weekdays'} className='text-right' disabled={isZeroWeekdays}
-          eventKey='weekdays' onSelect={this.handleChangeFactory('daysSelection') as any}>
+          eventKey='weekdays'>
           {t('weekdays')}
         </MenuItem>
         <MenuItem active={daysSelection === 'weekends'} className='text-right' disabled={isZeroWeekends}
-          eventKey='weekends' onSelect={this.handleChangeFactory('daysSelection') as any}>
+          eventKey='weekends'>
           {t('weekends')}
         </MenuItem>
       </DropdownButton>
-      <DropdownButton disabled={display !== 'remaining'} dir='rtl' id='timeUnit-dropdown' title={t(timeUnit)} pullRight>
+
+      <DropdownButton disabled={display !== 'remaining'} dir='rtl' id='timeUnit-dropdown' title={t(timeUnit)}
+        onSelect={this.handleTimeUnitChange as any} pullRight>
         <MenuItem active={timeUnit === 'year'} className='text-right'
-          disabled={!utils.isValidTimeUnit(currentDate, date, 'year')} eventKey='year'
-          onSelect={this.handleTimeUnitChange as any}>
+          disabled={!utils.isValidTimeUnit(currentDate, date, 'year')} eventKey='year'>
           {t('year')}
         </MenuItem>
         <MenuItem active={timeUnit === 'month'} className='text-right'
-          disabled={!utils.isValidTimeUnit(currentDate, date, 'month')} eventKey='month'
-          onSelect={this.handleTimeUnitChange as any}>
+          disabled={!utils.isValidTimeUnit(currentDate, date, 'month')} eventKey='month'>
           {t('month')}
         </MenuItem>
         <MenuItem active={timeUnit === 'week'} className='text-right'
-          disabled={!utils.isValidTimeUnit(currentDate, date, 'week')} eventKey='week'
-          onSelect={this.handleTimeUnitChange as any}>
+          disabled={!utils.isValidTimeUnit(currentDate, date, 'week')} eventKey='week'>
           {t('week')}
         </MenuItem>
         <MenuItem active={timeUnit === 'day'} className='text-right'
-          disabled={!utils.isValidTimeUnit(currentDate, date, 'day')} eventKey='day'
-          onSelect={this.handleTimeUnitChange as any}>
+          disabled={!utils.isValidTimeUnit(currentDate, date, 'day')} eventKey='day'>
           {t('day')}
         </MenuItem>
         <MenuItem active={timeUnit === 'hour'} className='text-right'
           disabled={!utils.isValidTimeUnit(currentDate, date, 'hour')}
-          eventKey='hour' onSelect={this.handleTimeUnitChange as any}>
+          eventKey='hour'>
           {t('hour')}
         </MenuItem>
       </DropdownButton>
@@ -156,30 +144,8 @@ export default class Event extends React.Component<IProps, IState>
           formattedValue={formattedValue} />
       </Panel>
 
-      <Modal show={showModal} onHide={() => this.setState({ showModal: false } as IState)}>
-        <Modal.Header className='text-center' closeButton>
-          <Modal.Title>إضافة تذكير</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <FormGroup controlId={`before-${date.getTime()}`} dir='rtl'>
-            <ControlLabel>ذكرني قبل بـ:</ControlLabel>
-            <FormControl componentClass='select' value={before}
-              onChange={(e) => this.setState({ before: (e.target as any).value } as IState)}>
-              <option value='second'>ثانية</option>
-              <option value='minute'>دقيقة</option>
-              <option value='hour'>ساعة</option>
-              <option value='day'>يوم</option>
-              <option value='week'>أسبوع</option>
-              <option value='month'>شهر</option>
-            </FormControl>
-          </FormGroup>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button bsStyle='success' onClick={this.remindMe} block>ذكرني</Button>
-        </Modal.Footer>
-      </Modal>
+      <RemindMeModal currentDate={currentDate} event={{ date, title, type }} showModal={showModal}
+        hideModal={() => this.setState({ showModal: false } as IState)} />
     </article>)
   }
 
@@ -191,16 +157,5 @@ export default class Event extends React.Component<IProps, IState>
     if (utils.isValidTimeUnit(currentDate, date, timeUnit)) {
       this.setState({ timeUnit } as IState)
     }
-  }
-
-  private remindMe = () => {
-    const {date, title, type} = this.props
-    const {before} = this.state
-
-    notifications.scheduleNotification({ date, title, type }, before).then(() => {
-      this.setState({ showModal: false } as IState)
-    }).catch(err => {
-      console.log('Notification failed with: ', err)
-    })
   }
 }
