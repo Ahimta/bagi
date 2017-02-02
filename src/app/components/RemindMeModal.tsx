@@ -52,9 +52,9 @@ export default class RemindMeModal extends React.Component<IProps, IState>
               <MenuItem active={timeUnit === 'week'} className='text-right' eventKey='week'>{t('week')}</MenuItem>
               <MenuItem active={timeUnit === 'month'} className='text-right' eventKey='month'>{t('month')}</MenuItem>
             </DropdownButton>
-            <FormControl type='text' dir='rtl' value={timeValue}
+            <FormControl dir='rtl' min={0} max={1000000} type='number' value={timeValue}
               onChange={(e) => this.setState({ timeValue: (e.target as any).value } as IState)} />
-            <InputGroup.Addon>ذكرني</InputGroup.Addon>
+            <InputGroup.Addon>قبل</InputGroup.Addon>
           </InputGroup>
         </FormGroup>
       </Modal.Body>

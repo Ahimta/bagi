@@ -86,7 +86,7 @@ export default class Event extends React.Component<IProps, IState>
         <MenuItem active={display === 'value'} className='text-right' eventKey='value'>{t('value')}</MenuItem>
       </DropdownButton>
 
-      <Button active={showModal} disabled={!notificationSupported}
+      <Button active={showModal} className='hidden' disabled={!notificationSupported}
         onClick={() => this.setState({ showModal: true } as IState)}>
         ذكرني
       </Button>
