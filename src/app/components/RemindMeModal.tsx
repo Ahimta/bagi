@@ -68,7 +68,7 @@ export default class RemindMeModal extends React.Component<IProps, IState>
       <Modal.Body>{ModalBody}</Modal.Body>
 
       <Modal.Footer>
-        <Button active={loading} bsStyle='success' onClick={this.remindMe} block>ذكرني</Button>
+        <Button bsStyle='success' disabled={loading} onClick={this.remindMe} block>ذكرني</Button>
       </Modal.Footer>
     </Modal>)
   }
