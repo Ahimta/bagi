@@ -23,13 +23,9 @@ export function scheduleNotification({date, title, type}: IBagiEvent, timeUnit: 
 
 function getSubscription(): Promise<any> {
   return (navigator as any).serviceWorker.ready.then((reg) => {
-    return { reg, subscription: reg.pushManager.getSubscription() }
-  }).then(({reg, subscription}) => {
-    if (subscription) {
-      return subscription
-    } else {
-      return reg.pushManager.subscribe({ applicationServerKey, userVisibleOnly: true })
-    }
+    return Promise.all([reg, reg.pushManager.getSubscription()])
+  }).then(([reg, subscription]) => {
+    return (subscription || reg.pushManager.subscribe({ applicationServerKey, userVisibleOnly: true }))
   }).then(subscription => {
     return subscription.toJSON()
   })
