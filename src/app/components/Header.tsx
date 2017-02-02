@@ -47,7 +47,7 @@ const contactUs = {
 
 interface IArabicWebsiteProps { active: boolean, disabled: boolean, href: string, title: string }
 function ArabicWebsite({active, disabled, href, title}: IArabicWebsiteProps) {
-  const className = classNames('text-right', {active})
+  const className = classNames('text-right', { active })
   return <MenuItem className={className} disabled={disabled} href={href} key={href} target='_blank'>{title}</MenuItem>
 }
 
@@ -55,32 +55,27 @@ function EnglishWebsite({href, title}: { href: string, title: string }) {
   return <MenuItem className='text-left' href={href} key={href} target='_blank'>{title}</MenuItem>
 }
 
-interface IProps { }
-interface IState { }
-
-export default class Header extends React.Component<IProps, IState> {
-  render() {
-    return (<header>
-      <div style={{ marginBottom: '5em' }}>
-        <Navbar collapseOnSelect fixedTop inverse>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <img src='app/images/icon-256x256.png' />
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav pullRight className='text-right'>
-              <MenuItem className='text-right' href={contactUs.link} target='_blank'>{contactUs.title}</MenuItem>
-              <NavDropdown title='مواقع أخرى' dir='rtl' id='other-websites'>
-                {arabicWebsites.map(ArabicWebsite)}
-                <MenuItem divider />
-                {englishWebsites.map(EnglishWebsite)}
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-      </div>
-    </header>)
-  }
+export default function Header() {
+  return (<header>
+    <div style={{ marginBottom: '5em' }}>
+      <Navbar collapseOnSelect fixedTop inverse>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <img src='app/images/icon-256x256.png' />
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav pullRight className='text-right'>
+            <MenuItem className='text-right' href={contactUs.link} target='_blank'>{contactUs.title}</MenuItem>
+            <NavDropdown title='مواقع أخرى' dir='rtl' id='other-websites'>
+              {arabicWebsites.map(ArabicWebsite)}
+              <MenuItem divider />
+              {englishWebsites.map(EnglishWebsite)}
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
+  </header>)
 }
