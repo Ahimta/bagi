@@ -77,6 +77,11 @@ export default class Event extends React.Component<IProps, IState>
     const isZeroWeekdays = utils.isZeroWeekdays(currentDate, date)
 
     const Footer = (<ButtonGroup>
+      <Button active={showModal} disabled={!notificationSupported}
+        onClick={() => this.setState({ showModal: true } as IState)}>
+        ذكرني
+      </Button>
+
       <DropdownButton dir='rtl' id='display-dropdown' title={t(display)} onSelect={this.handleChangeFactory('display')}
         pullRight>
         <MenuItem active={display === 'remaining'} className='text-right' eventKey='remaining'>
@@ -85,11 +90,6 @@ export default class Event extends React.Component<IProps, IState>
         <MenuItem active={display === 'time'} className='text-right' eventKey='time'>{t('time')}</MenuItem>
         <MenuItem active={display === 'value'} className='text-right' eventKey='value'>{t('value')}</MenuItem>
       </DropdownButton>
-
-      <Button active={showModal} className='hidden' disabled={!notificationSupported}
-        onClick={() => this.setState({ showModal: true } as IState)}>
-        ذكرني
-      </Button>
 
       <DropdownButton disabled={display === 'time'} dir='rtl' id='daysSelection-dropdown' title={t(daysSelection)}
         onSelect={this.handleChangeFactory('daysSelection')} pullRight>
