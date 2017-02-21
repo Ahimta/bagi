@@ -70,6 +70,11 @@ const EVENTS: ReadonlyArray<IBagiEvent> = [
   { title: 'فرض ضريبة القيمة المضافة', date: date(2018, 0, 1, 0), type: 'negative' },
   { title: 'اعتماد تعرفة السلع الفاخرة', date: date(2018, 0, 1, 0), type: 'negative' },
   { title: 'ربط جميع منتجات الطاقة بالأسعار المرجعية', date: date(2020, 0, 1, 0), type: 'negative' },
+
+  { title: 'رمضان', date: date(2017, 4, 27, 0), type: 'positive' },
+  { title: 'عيد الفطر', date: date(2017, 5, 25, 0), type: 'positive' },
+  { title: 'يوم عرفة', date: date(2017, 7, 31, 0), type: 'positive' },
+  { title: 'عيد الأضحية', date: date(2017, 8, 1, 0), type: 'positive' },
 ]
 
 function OfflineAlert() {
