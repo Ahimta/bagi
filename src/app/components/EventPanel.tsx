@@ -77,7 +77,7 @@ export default class Event extends React.Component<IProps, IState>
     const isZeroWeekdays = utils.isZeroWeekdays(currentDate, date)
 
     const Footer = (<ButtonGroup>
-      <Button active={showModal} disabled
+      <Button active={showModal} disabled={!notificationSupported}
         onClick={() => this.setState({ showModal: true } as IState)}>
         ذكرني
       </Button>
