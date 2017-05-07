@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import { Alert, Button, FormControl, FormGroup, Grid, InputGroup, Modal, ProgressBar } from 'react-bootstrap'
 
@@ -53,8 +52,8 @@ const EVENTS: ReadonlyArray<IBagiEvent> = [
   { title: 'بداية الدراسة للفصل الدراسي الثاني', date: date(2017, 1, 5, 0), type: 'negative' },
   { title: 'بداية إجازة منتصف الفصل الدراسي الثاني', date: date(2017, 2, 31, 0), type: 'positive' },
   { title: 'بداية الدراسة بعد إجازة منتصف الفصل الدراسي الثاني', date: date(2017, 3, 9, 0), type: 'negative' },
-  { title: 'بداية اختبارات الفصل الدراسي الثاني', date: date(2017, 5, 4, 0), type: 'negative' },
-  { title: 'بداية إجازة نهاية العام', date: date(2017, 5, 16, 0), type: 'positive' },
+  { title: 'بداية اختبارات الفصل الدراسي الثاني', date: date(2017, 4, 3, 0), type: 'negative' },
+  { title: 'بداية إجازة نهاية العام', date: date(2017, 4, 18, 0), type: 'positive' },
 
   { title: 'راتب شهر 5 (جمادة الأولى)', date: date(2017, 1, 24, 0), type: 'positive' },
   { title: 'راتب شهر 6 (جمادة الآخرة)', date: date(2017, 2, 25, 0), type: 'positive' },
