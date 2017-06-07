@@ -59,7 +59,7 @@ const EVENTS: ReadonlyArray<IBagiEvent> = [
   { title: 'راتب شهر 6 (جمادة الآخرة)', date: date(2017, 2, 25, 0), type: 'positive' },
   { title: 'راتب شهر 7 (رجب)', date: date(2017, 3, 25, 0), type: 'positive' },
   { title: 'راتب شهر 8 (شعبان)', date: date(2017, 4, 26, 0), type: 'positive' },
-  { title: 'راتب شهر 9 (رمضان)', date: date(2017, 5, 26, 0), type: 'positive' },
+  { title: 'راتب شهر 9 (رمضان)', date: date(2017, 5, 19, 0), type: 'positive' },
   { title: 'راتب شهر 10 (شوال)', date: date(2017, 6, 27, 0), type: 'positive' },
   { title: 'راتب شهر 11 (ذو القعدة)', date: date(2017, 7, 27, 0), type: 'positive' },
   { title: 'راتب شهر 12 (ذو الحجة)', date: date(2017, 8, 27, 0), type: 'positive' },
