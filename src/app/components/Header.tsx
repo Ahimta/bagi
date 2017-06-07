@@ -31,10 +31,12 @@ const arabicWebsites = [
 
 const englishWebsites = [
   {
+    disabled: false,
     href: 'http://ctw.getforge.io/',
     title: 'Clinton, Trump, what\'s up'
   },
   {
+    disabled: true,
     href: 'https://blood-donation-system0.herokuapp.com/',
     title: 'Blood Donation System'
   },
@@ -51,8 +53,8 @@ function ArabicWebsite({active, disabled, href, title}: IArabicWebsiteProps) {
   return <MenuItem className={className} disabled={disabled} href={href} key={href} target='_blank'>{title}</MenuItem>
 }
 
-function EnglishWebsite({href, title}: { href: string, title: string }) {
-  return <MenuItem className='text-left' href={href} key={href} target='_blank'>{title}</MenuItem>
+function EnglishWebsite({disabled, href, title}: { disabled: boolean, href: string, title: string }) {
+  return <MenuItem className='text-left' disabled={disabled} href={href} key={href} target='_blank'>{title}</MenuItem>
 }
 
 export default function Header() {
