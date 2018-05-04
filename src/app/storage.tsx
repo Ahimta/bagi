@@ -1,4 +1,3 @@
-import { Promise } from 'es6-promise'
 import IBagiEvent from './types/IBagiEvent'
 import * as localforage from 'localforage'
 
@@ -24,13 +23,13 @@ export function addReminder(event: IBagiEvent): Promise<IBagiEvent[]> {
 
 export function getEvents(): Promise<IBagiEvent[]> {
   return localforage.getItem('myEvents').then(storedEvents => {
-    return (storedEvents || [])
+    return (storedEvents || []) as IBagiEvent[]
   })
 }
 
 export function getReminders(): Promise<IBagiEvent[]> {
   return localforage.getItem('reminders').then(storedReminders => {
-    return (storedReminders || [])
+    return (storedReminders || []) as IBagiEvent[]
   })
 }
 
