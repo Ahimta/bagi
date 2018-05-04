@@ -19,7 +19,6 @@ npm run serve
 ## Test Deployment
 
 ```bash
-npm run build
 npm run serve:dist
 ```
 
