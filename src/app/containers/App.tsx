@@ -236,7 +236,7 @@ export default class App extends React.Component<IProps, IState>
   }
 
   private mapDateFactory = (currentDate, removeEvent) => ({date, title, type}: IBagiEvent) => {
-    return <EventPanel currentDate={currentDate} date={date} key={title} title={title}
+    return <EventPanel currentDate={currentDate} date={date} key={`${title}-${date.getTime()}`} title={title}
       type={type} removeEvent={removeEvent} />
   }
 }
