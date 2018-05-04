@@ -3,7 +3,6 @@ import {
   Alert, Button, DropdownButton, FormControl, FormGroup, InputGroup, MenuItem, Modal, ProgressBar
 } from 'react-bootstrap'
 
-import * as notifications from '../notifications'
 import IBagiEvent from '../types/IBagiEvent'
 import TimeUnit from '../types/TimeUnit'
 import t from '../translate'
@@ -68,24 +67,10 @@ export default class RemindMeModal extends React.Component<IProps, IState>
       <Modal.Body>{ModalBody}</Modal.Body>
 
       <Modal.Footer>
-        <Button bsStyle='success' disabled={loading} onClick={this.remindMe} block>ذكرني</Button>
+        <Button bsStyle='success' disabled={loading} block>ذكرني</Button>
       </Modal.Footer>
     </Modal>)
   }
 
   private handleChangeFactory = (fieldName) => (value) => this.setState({ [fieldName]: value } as IState)
-
-  private remindMe = () => {
-    const {event, hideModal} = this.props
-    const {timeUnit, timeValue} = this.state
-
-    this.setState({ loading: true } as IState)
-    notifications.scheduleNotification(event, timeUnit, timeValue).then(() => {
-      this.setState({ loading: false } as IState)
-      hideModal()
-    }).catch(err => {
-      this.setState({ loading: false } as IState)
-      console.log('Notification failed with: ', err)
-    })
-  }
 }

@@ -10,8 +10,6 @@ import EventDisplay from '../types/EventDisplay'
 import EventType from '../types/EventType'
 import TimeUnit from '../types/TimeUnit'
 
-const notificationSupported = ('serviceWorker' in navigator && 'PushManager' in window)
-
 function getStyle(type: EventType) {
   switch (type) {
     case 'custom': return 'primary'
