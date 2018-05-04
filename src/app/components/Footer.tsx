@@ -10,7 +10,7 @@ export default function Footer() {
     </p>
     <p className='text-center' dir='rtl'>
       <a href='https://sa.linkedin.com/in/ahimta' target='_blank'>
-        &copy; 2017
+        &copy; 2018
         عبدالله الأنصاري
       </a>
     </p>
