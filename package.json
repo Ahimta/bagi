@@ -3,7 +3,6 @@
     "axios": "^0.15.3",
     "classnames": "^2.2.5",
     "es6-promise": "^4.0.5",
-    "es6-shim": "^0.35.0",
     "localforage": "^1.4.3",
     "material-ui": "^0.16.7",
     "react": "^15.0.1",
@@ -13,7 +12,6 @@
   },
   "devDependencies": {
     "@types/classnames": "^0.0.31",
-    "@types/es6-shim": "^0.31.32",
     "@types/jasmine": "^2.5.38",
     "@types/node": "^0.0.2",
     "@types/react": "^15.0.1",
