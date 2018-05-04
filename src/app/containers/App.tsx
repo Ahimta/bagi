@@ -45,35 +45,23 @@ function massageEvents(currentDate: Date, events: ReadonlyArray<IBagiEvent>): Re
 }
 
 const EVENTS: ReadonlyArray<IBagiEvent> = [
-  { title: 'بداية إجازة منتصف الفصل الأول', date: date(2016, 10, 11, 0), type: 'positive' },
-  { title: 'بداية الدراسة بعد إجازة منتصف الفصل الأول', date: date(2016, 10, 20, 0), type: 'negative' },
-  { title: 'بداية اختبارات الفصل الدراسي الأول', date: date(2017, 0, 15, 0), type: 'negative' },
-  { title: 'بداية إجازة منتصف العام', date: date(2017, 0, 27, 0), type: 'positive' },
-  { title: 'بداية الدراسة للفصل الدراسي الثاني', date: date(2017, 1, 5, 0), type: 'negative' },
-  { title: 'بداية إجازة منتصف الفصل الدراسي الثاني', date: date(2017, 2, 31, 0), type: 'positive' },
-  { title: 'بداية الدراسة بعد إجازة منتصف الفصل الدراسي الثاني', date: date(2017, 3, 9, 0), type: 'negative' },
-  { title: 'بداية اختبارات الفصل الدراسي الثاني', date: date(2017, 4, 3, 0), type: 'negative' },
-  { title: 'بداية إجازة نهاية العام', date: date(2017, 4, 18, 0), type: 'positive' },
+  { title: 'بداية شهر رمضان المبارك', date: date(2018, 4, 15, 0), type: 'positive' },
+  { title: 'بداية العشر الأواخر', date: date(2018, 5, 2, 0), type: 'positive' },
+  { title: 'عيد الفطر المبارك', date: date(2018, 5, 14, 0), type: 'positive' },
+  { title: 'يوم عرفة', date: date(2018, 7, 20, 0), type: 'positive' },
+  { title: 'عيد ذو الحجة المبارك', date: date(2018, 7, 21, 0), type: 'positive' },
 
-  { title: 'راتب شهر 5 (جمادة الأولى)', date: date(2017, 1, 24, 0), type: 'positive' },
-  { title: 'راتب شهر 6 (جمادة الآخرة)', date: date(2017, 2, 25, 0), type: 'positive' },
-  { title: 'راتب شهر 7 (رجب)', date: date(2017, 3, 25, 0), type: 'positive' },
-  { title: 'راتب شهر 8 (شعبان)', date: date(2017, 4, 26, 0), type: 'positive' },
-  { title: 'راتب شهر 9 (رمضان)', date: date(2017, 5, 19, 0), type: 'positive' },
-  { title: 'راتب شهر 10 (شوال)', date: date(2017, 6, 27, 0), type: 'positive' },
-  { title: 'راتب شهر 11 (ذو القعدة)', date: date(2017, 7, 27, 0), type: 'positive' },
-  { title: 'راتب شهر 12 (ذو الحجة)', date: date(2017, 8, 27, 0), type: 'positive' },
+  { title: 'بداية اختبار الفصل الدراسي الثاني', date: date(2018, 4, 6, 0), type: 'negative' },
+  { title: 'بداية اجازة نهاية العام', date: date(2018, 4, 15, 0), type: 'positive' },
+  { title: 'بداية الدراسة للطلاب للفصل الدراسي الأول', date: date(2018, 8, 2, 0), type: 'negative' },
+  { title: 'إجازة اليوم الوطني', date: date(2018, 8, 23, 0), type: 'positive' },
+  { title: 'بداية اختبار الفصل الدراسي الأول', date: date(2018, 11, 16, 0), type: 'negative' },
+  { title: 'بداية إجازة منتصف العام', date: date(2018, 11, 27, 0), type: 'positive' },
+  { title: 'بداية الدراسة للفصل الدراسي الثاني', date: date(2019, 0, 6, 0), type: 'negative' },
+  { title: 'بداية اختبار الفصل الدراسي الثاني', date: date(2019, 3, 21, 0), type: 'negative' },
+  { title: 'بداية اجازة نهاية العام', date: date(2019, 4, 2, 0), type: 'positive' },
 
-  { title: 'فرض ضريبة المنتجات الضارة (المشروبات الغازية...)', date: date(2017, 3, 1, 0), type: 'positive' },
-  { title: 'زيادة أسعار منتجات الطاقة', date: date(2017, 6, 1, 0), type: 'negative' },
-  { title: 'فرض ضريبة القيمة المضافة', date: date(2018, 0, 1, 0), type: 'negative' },
-  { title: 'اعتماد تعرفة السلع الفاخرة', date: date(2018, 0, 1, 0), type: 'negative' },
-  { title: 'ربط جميع منتجات الطاقة بالأسعار المرجعية', date: date(2020, 0, 1, 0), type: 'negative' },
-
-  { title: 'رمضان', date: date(2017, 4, 27, 0), type: 'positive' },
-  { title: 'عيد الفطر', date: date(2017, 5, 25, 0), type: 'positive' },
-  { title: 'يوم عرفة', date: date(2017, 7, 31, 0), type: 'positive' },
-  { title: 'عيد الأضحية', date: date(2017, 8, 1, 0), type: 'positive' },
+  { title: 'ربط جميع منتجات الطاقة بالأسعار المرجعية', date: date(2020, 0, 1, 0), type: 'negative' }
 ]
 
 function OfflineAlert() {
