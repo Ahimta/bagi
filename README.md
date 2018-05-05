@@ -1,4 +1,8 @@
-# bagi
+# Bagi
+
+[![Travis](https://img.shields.io/travis/Ahimta/bagi.svg?style=flat-square)](https://travis-ci.org/Ahimta/bagi)
+[![Known Vulnerabilities](https://snyk.io/test/github/Ahimta/bagi/badge.svg?style=flat-square)](https://snyk.io/test/github/Ahimta/bagi)
+[![license](https://img.shields.io/github/license/Ahimta/bagi.svg?style=flat-square)](https://github.com/Ahimta/bagi)
 
 ## Prerequisites
 
