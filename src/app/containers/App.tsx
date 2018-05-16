@@ -45,14 +45,14 @@ function massageEvents(currentDate: Date, events: ReadonlyArray<IBagiEvent>): Re
 }
 
 const EVENTS: ReadonlyArray<IBagiEvent> = [
-  { title: 'بداية شهر رمضان المبارك', date: date(2018, 4, 16, 0), type: 'positive' },
+  { title: 'بداية شهر رمضان المبارك', date: date(2018, 4, 17, 0), type: 'positive' },
   { title: 'بداية العشر الأواخر', date: date(2018, 5, 3, 0), type: 'positive' },
   { title: 'عيد الفطر المبارك', date: date(2018, 5, 15, 0), type: 'positive' },
   { title: 'يوم عرفة', date: date(2018, 7, 20, 0), type: 'positive' },
   { title: 'عيد ذو الحجة المبارك', date: date(2018, 7, 21, 0), type: 'positive' },
 
   { title: 'بداية اختبار الفصل الدراسي الثاني', date: date(2018, 4, 6, 0), type: 'negative' },
-  { title: 'بداية اجازة نهاية العام', date: date(2018, 4, 15, 0), type: 'positive' },
+  { title: 'بداية اجازة نهاية العام', date: date(2018, 4, 17, 0), type: 'positive' },
   { title: 'بداية الدراسة للطلاب للفصل الدراسي الأول', date: date(2018, 8, 2, 0), type: 'negative' },
   { title: 'إجازة اليوم الوطني', date: date(2018, 8, 23, 0), type: 'positive' },
   { title: 'بداية اختبار الفصل الدراسي الأول', date: date(2018, 11, 16, 0), type: 'negative' },
